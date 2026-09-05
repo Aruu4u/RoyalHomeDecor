@@ -207,12 +207,57 @@ taking effect — set it to `true` explicitly and redeploy.
 </details>
 
 <details>
-<summary><b>Build fails installing Python dependencies</b></summary>
+<summary><b><code>No interpreter found for Python 3.11.9</code> (hit on the first deploy, now fixed)</b></summary>
 
-Vercel may build with a newer Python than the `3.11.9` in `.python-version`, and some
-packages need matching wheels. If `asyncpg` fails to build, check the log for the
-Python version Vercel chose and either pin it in project settings or move to an
-`asyncpg` release with wheels for it.
+Vercel's Python builder detects a `[project]` table in `pyproject.toml` and installs
+with **uv**, not pip:
+
+```
+Using python version: 3.12
+Installing required dependencies from pyproject.toml
+Error: uv sync --active --no-dev --locked --no-editable
+error: No interpreter found for Python 3.11.9
+```
+
+uv reads `.python-version` itself. That file said `3.11.9`, a full patch version Vercel
+does not ship, so resolution failed even though 3.12 was available and satisfied
+`requires-python`.
+
+Three changes fixed it, and all three matter:
+
+1. `.python-version` now says `3.12`, matching what Vercel provisions.
+2. `requires-python` is `>=3.11` rather than `>=3.11.9`. A full patch pin fails on any
+   host shipping a different patch.
+3. `uv.lock` is committed, because the builder passes `--locked`, which refuses to
+   resolve without an up-to-date lockfile.
+
+**Because uv reads `pyproject.toml`, `[project].dependencies` is the list that governs
+the deployment — not `requirements.txt`.** Keep the two in step. Regenerate the lock
+after any change:
+
+```bash
+uv lock
+```
+
+</details>
+
+<details>
+<summary><b>API returns 500 on every request, log shows an ImportError</b></summary>
+
+Something the code imports is missing from `[project].dependencies`. This is easy to
+cause, because `requirements.txt` looking correct is no help — Vercel does not read it.
+
+It bit this project once already: `email-validator` sat only in the dev extras, but
+`app/schemas/review.py` declares an `EmailStr` field, and pydantic raises while
+*building* that model. The result is a total boot failure, not a broken endpoint. The
+same applied to `httpx`, which `app/services/razorpay.py` needs at runtime.
+
+To check the deployed set matches what the app imports:
+
+```bash
+cd luxury-furniture-backend
+uv export --no-dev --locked --no-hashes
+```
 
 </details>
 
@@ -245,6 +290,9 @@ traffic, so it mostly affects the first visitor after an idle spell.
 | `app/core/config.py` | Added `DB_SERVERLESS`, defaulting from Vercel's own env var |
 | `app/main.py` | CORS reads `CORS_ORIGINS` again — it had been hardcoded to `localhost:4173` |
 | `luxury-furniture-backend/requirements.txt` | Re-saved as UTF-8 (was UTF-16, which pip cannot read) and pinned |
+| `luxury-furniture-backend/pyproject.toml` | Now the accurate runtime dependency list, since Vercel installs from it via uv. Added the missing `email-validator` and `httpx`, pinned the versions, and loosened `requires-python` to `>=3.11` |
+| `luxury-furniture-backend/.python-version` | `3.11.9` to `3.12`; uv could not resolve the patch-pinned version |
+| `luxury-furniture-backend/uv.lock` | New. The builder runs `uv sync --locked`, which requires it |
 
 Local development is untouched. Without `VERCEL` set, `DB_SERVERLESS` is false and the
 engine keeps its normal connection pool.

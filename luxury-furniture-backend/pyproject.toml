@@ -1,4 +1,13 @@
-##keeps project information, dependencies and development-tool configuration in one place.##
+## Project information, dependencies and development-tool configuration.
+##
+## Note that Vercel's Python builder reads THIS file rather than
+## requirements.txt: it detects a [project] table and installs with
+## `uv sync --no-dev`. So [project].dependencies must list everything the
+## running API imports, and it must stay in step with requirements.txt.
+##
+## The two files exist for different hosts. requirements.txt is for pip
+## (Render, Docker, a plain virtualenv); this file is for uv, and it also
+## holds the pytest and ruff settings.
 
 [build-system]
 requires = ["setuptools>=75"]
@@ -6,23 +15,55 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "luxury-furniture-api"
-version = "0.1.0"
+version = "0.3.0"
 description = "Backend API for a luxury furniture e-commerce website"
-requires-python = ">=3.11.9"
+
+## Deliberately a minor-version floor, not ">=3.11.9".
+##
+## uv resolves an interpreter from this and from .python-version, and a
+## full patch version means the build fails on any host that ships a
+## different patch. That is exactly what broke the first Vercel deploy:
+## "No interpreter found for Python 3.11.9".
+requires-python = ">=3.11"
+
+## Pinned to the versions the test suite passes against, matching
+## requirements.txt exactly. Ranges were previously used here, which meant
+## a deploy installed whatever was newest that day.
 dependencies = [
-    "fastapi>=0.121,<1.0",
-    "uvicorn[standard]>=0.35,<1.0",
-    "pydantic-settings>=2.10,<3.0",
-    "sqlalchemy[asyncio]>=2.0,<2.2",
-    "asyncpg>=0.30,<1.0",
-    "alembic>=1.16,<2.0",
+    # ---------- Web framework and server ----------
+    "fastapi==0.139.2",
+    "uvicorn[standard]==0.51.0",
+    "starlette==1.3.1",
+    "anyio==4.14.2",
+
+    # ---------- Database ----------
+    "sqlalchemy[asyncio]==2.0.51",
+    "asyncpg==0.31.0",
+    # Required by SQLAlchemy's async support. A missing greenlet surfaces
+    # as a confusing "MissingGreenlet" error rather than an import failure.
+    "greenlet==3.5.3",
+    "alembic==1.18.5",
+
+    # ---------- Configuration and validation ----------
+    "pydantic==2.13.4",
+    "pydantic-settings==2.14.2",
+    "python-dotenv==1.2.2",
+    # Required at IMPORT time, not lazily: app/schemas/review.py declares an
+    # EmailStr field, and pydantic raises while building that model if this
+    # is absent. Omitting it stops the whole API booting, which is what a
+    # previous version of this file did.
+    "email-validator==2.3.0",
+
+    # ---------- HTTP client ----------
+    # Used at runtime by app/services/razorpay.py, so it belongs here and
+    # not in the dev extras where it used to sit.
+    "httpx==0.28.1",
 ]
 
 [project.optional-dependencies]
 dev = [
-    "httpx>=0.28,<1.0",
-    "pytest>=8.0,<9.0",
-    "ruff>=0.12,<1.0",
+    "pytest==8.4.2",
+    "ruff==0.15.22",
 ]
 
 [tool.setuptools.packages.find]
@@ -34,4 +75,4 @@ pythonpath = ["."]
 
 [tool.ruff]
 line-length = 100
-target-version = "py312"
+target-version = "py311"
