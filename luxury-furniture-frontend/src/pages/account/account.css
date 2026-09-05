@@ -1,0 +1,315 @@
+/* =========================================================
+   ACCOUNT AREA — shared by account, addresses, favourites,
+   orders and the checkout address picker
+   ========================================================= */
+
+.account-page {
+  padding-block: clamp(34px, 4.5vw, 64px) var(--section-y);
+}
+
+.account-header {
+  margin-bottom: var(--space-6);
+}
+
+.account-title {
+  margin-top: var(--space-2);
+  font-size: var(--text-display);
+  line-height: var(--leading-tight);
+}
+
+.account-subtitle {
+  max-width: 60ch;
+  margin-top: var(--space-3);
+}
+
+.account-layout {
+  display: grid;
+  grid-template-columns: 236px minmax(0, 1fr);
+  gap: clamp(24px, 3.4vw, 46px);
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  .account-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Sidebar ---------- */
+
+.account-nav {
+  display: grid;
+  gap: 2px;
+  padding: var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-xs);
+}
+
+.account-nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  color: var(--walnut);
+  font-size: var(--text-small);
+  font-weight: 600;
+  transition:
+    background-color var(--dur-base) var(--ease),
+    color var(--dur-base) var(--ease);
+}
+
+.account-nav-link:hover {
+  background: var(--linen);
+  color: var(--ink);
+}
+
+.account-nav-link.active {
+  background: var(--ink);
+  color: var(--ivory);
+}
+
+.account-nav-count {
+  padding: 1px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--mist);
+  color: var(--walnut);
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.account-nav-link.active .account-nav-count {
+  background: rgb(255 250 242 / 22%);
+  color: var(--ivory);
+}
+
+.account-signout {
+  margin-top: var(--space-3);
+  padding: 12px 14px;
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  color: var(--danger);
+  font-size: var(--text-small);
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+
+.account-signout:hover {
+  color: #7d271d;
+}
+
+/* ---------- Content ---------- */
+
+.account-content {
+  display: grid;
+  gap: var(--space-5);
+  min-width: 0;
+}
+
+.account-panel-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+
+.account-panel-title {
+  font-size: 1.5rem;
+}
+
+.account-panel-subtitle {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: var(--text-small);
+}
+
+.account-form {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.account-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-4);
+}
+
+.account-meta {
+  margin-top: var(--space-5);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: var(--text-tiny);
+}
+
+/* ---------- Address form ---------- */
+
+.address-form {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.address-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-4);
+}
+
+.address-form-grid .field.is-wide {
+  grid-column: 1 / -1;
+}
+
+.address-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+/* ---------- Address radio options (checkout) ---------- */
+
+.address-options {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.address-option {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  cursor: pointer;
+  transition:
+    border-color var(--dur-base) var(--ease),
+    background-color var(--dur-base) var(--ease);
+}
+
+.address-option:hover {
+  border-color: var(--walnut);
+}
+
+.address-option.is-active {
+  border-color: var(--ink);
+  background: var(--linen);
+  box-shadow: 0 0 0 1px var(--ink);
+}
+
+.address-option input {
+  margin-top: 3px;
+  accent-color: var(--gold);
+}
+
+.address-option-body {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.address-option-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-small);
+}
+
+.address-option-name {
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+}
+
+.address-option-lines,
+.address-option-phone {
+  color: var(--walnut);
+  font-size: var(--text-small);
+  line-height: 1.6;
+}
+
+.address-option-phone {
+  color: var(--muted);
+  font-size: var(--text-tiny);
+}
+
+/* ---------- Address cards (addresses page) ---------- */
+
+.address-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-4);
+}
+
+.address-card {
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+  padding: var(--space-5);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-xs);
+  transition: box-shadow var(--dur-base) var(--ease);
+}
+
+.address-card:hover {
+  box-shadow: var(--shadow-sm);
+}
+
+.address-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.address-card-label {
+  color: var(--ink);
+  font-size: var(--text-small);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.address-card-name {
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+}
+
+.address-card-lines {
+  color: var(--walnut);
+  font-size: var(--text-small);
+  line-height: 1.65;
+}
+
+.address-card-phone {
+  color: var(--muted);
+  font-size: var(--text-tiny);
+}
+
+.address-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--line);
+}
+
+/* ---------- Favourites ---------- */
+
+.favourites-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: clamp(18px, 2.2vw, 30px);
+}

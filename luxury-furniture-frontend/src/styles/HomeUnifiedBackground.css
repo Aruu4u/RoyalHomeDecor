@@ -1,0 +1,176 @@
+/* =========================================================
+   UNIFIED HOMEPAGE BACKGROUND
+
+   Remove this file and its import to undo the change.
+   ========================================================= */
+
+.home-page {
+  position: relative;
+  isolation: isolate;
+
+  background:
+    radial-gradient(
+      circle at 78% 22%,
+      rgb(229 203 163 / 34%),
+      transparent 31rem
+    ),
+    radial-gradient(
+      circle at 8% 72%,
+      rgb(170 130 98 / 10%),
+      transparent 25rem
+    ),
+    linear-gradient(
+      145deg,
+      #fffaf3 0%,
+      #f3e7d8 48%,
+      #eee0d0 100%
+    );
+}
+
+/*
+ * One texture covers the complete homepage instead
+ * of restarting inside every section.
+ */
+.home-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+
+  opacity: 0.16;
+
+  background-image:
+    linear-gradient(
+      rgb(78 56 42 / 5%) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgb(78 56 42 / 4%) 1px,
+      transparent 1px
+    );
+
+  background-size: 52px 52px;
+
+  mask-image:
+    linear-gradient(
+      to bottom,
+      transparent 0,
+      #000 18%,
+      #000 82%,
+      transparent 100%
+    );
+
+  pointer-events: none;
+}
+
+/* Keep the hero image unchanged. */
+
+.home-page > .hero {
+  position: relative;
+  z-index: 1;
+}
+
+/* About Us uses the shared homepage background. */
+
+.home-page .about-luxury-section {
+  background: transparent;
+}
+
+.home-page .about-luxury-section::before {
+  display: none;
+}
+
+.home-page .about-luxury-glow {
+  opacity: 0.65;
+}
+
+/* Collections continue from the About Us background. */
+
+.home-page .collections-showcase {
+  position: relative;
+  z-index: 1;
+
+  width: 100%;
+  margin: 0;
+  padding: 0;
+
+  background: transparent;
+}
+
+/* Every collection uses the same continuous background. */
+
+.home-page .collection-section {
+  position: relative;
+  width: 100%;
+  margin: 0;
+
+  border: 0;
+  border-top: 0;
+  border-bottom: 0;
+  border-radius: 0;
+
+  background: transparent;
+  box-shadow: none;
+}
+
+/*
+ * Hide the individual blurred collection backgrounds,
+ * otherwise every collection will have a different colour.
+ */
+.home-page .collection-section-background,
+.home-page .collection-section-overlay {
+  display: none;
+}
+
+/* Preserve readable content positioning. */
+
+.home-page .collection-section-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Remove visible gaps between sections. */
+
+.home-page .about-luxury-section + .collections-showcase,
+.home-page .collection-section + .collection-section {
+  margin-top: 0;
+}
+
+/* Very subtle separation without changing the background. */
+
+.home-page .collection-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: max(
+    24px,
+    calc((100vw - 1360px) / 2)
+  );
+  left: max(
+    24px,
+    calc((100vw - 1360px) / 2)
+  );
+
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgb(92 67 49 / 13%),
+      transparent
+    );
+}
+
+.home-page
+.collection-section:first-child::before {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .home-page .collection-section::before {
+    right: 16px;
+    left: 16px;
+  }
+}

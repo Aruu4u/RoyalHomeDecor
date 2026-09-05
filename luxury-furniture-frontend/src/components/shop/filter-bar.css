@@ -1,0 +1,349 @@
+﻿/* =========================================================
+   FILTER BAR
+   ========================================================= */
+
+/*
+ * Static, at the top of the results.
+ *
+ * It used to be sticky, but a translucent bar following the scroll sat
+ * over the grid and product titles read through it. Opaque and in
+ * normal flow is the correct behaviour here.
+ */
+.filter-bar {
+  display: grid;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+  padding: var(--space-5);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ---------- Head ---------- */
+
+.filter-bar-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.filter-bar-heading {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.filter-bar-icon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--linen);
+  color: var(--gold-deep);
+}
+
+.filter-bar-title {
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--text-tiny);
+  font-weight: 700;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+}
+
+.filter-bar-count {
+  padding: 4px 11px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-sunk);
+  color: var(--walnut);
+  font-size: var(--text-tiny);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.filter-bar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+/* ---------- Mode switches ---------- */
+
+.filter-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 6px 14px 6px 8px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--walnut);
+  font-size: var(--text-small);
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    border-color var(--dur-base) var(--ease),
+    background-color var(--dur-base) var(--ease),
+    color var(--dur-base) var(--ease);
+}
+
+.filter-switch:hover {
+  border-color: var(--walnut);
+  color: var(--ink);
+}
+
+.filter-switch.is-on {
+  border-color: var(--gold);
+  background: rgb(174 127 61 / 10%);
+  color: var(--gold-deep);
+}
+
+.filter-switch-track {
+  position: relative;
+  display: block;
+  width: 30px;
+  height: 17px;
+  border-radius: var(--radius-pill);
+  background: var(--mist);
+  transition: background-color var(--dur-base) var(--ease);
+}
+
+.filter-switch.is-on .filter-switch-track {
+  background: var(--gold);
+}
+
+.filter-switch-knob {
+  position: absolute;
+  top: 2.5px;
+  left: 2.5px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--surface);
+  box-shadow: var(--shadow-xs);
+  /* Slides on the compositor rather than animating layout. */
+  transition: transform var(--dur-base) var(--ease);
+}
+
+.filter-switch.is-on .filter-switch-knob {
+  transform: translateX(13px);
+}
+
+/*
+  The offer switch borrows the sale red rather than the brass used
+  everywhere else, so it reads as the same idea as the discount flags on
+  the cards it filters down to.
+*/
+.filter-switch.is-offer.is-on {
+  border-color: var(--sale);
+  background: var(--sale-bg);
+  color: var(--sale);
+}
+
+.filter-switch.is-offer.is-on .filter-switch-track {
+  background: var(--sale);
+}
+
+/* ---------- Clear ---------- */
+
+.filter-clear {
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid currentcolor;
+  background: transparent;
+  color: var(--danger);
+  font-size: var(--text-small);
+  font-weight: 700;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(-3px);
+  pointer-events: none;
+  transition:
+    opacity var(--dur-base) var(--ease),
+    transform var(--dur-base) var(--ease);
+}
+
+.filter-clear.is-visible {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+/* ---------- Fields ---------- */
+
+.filter-bar-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(168px, 1fr));
+  gap: var(--space-3);
+}
+
+.filter-field {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  animation: filter-field-in var(--dur-slow) var(--ease) var(--field-delay, 0ms)
+    both;
+}
+
+@keyframes filter-field-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .filter-field {
+    animation: none;
+  }
+}
+
+.filter-field-label {
+  color: var(--muted);
+  font-size: var(--text-tiny);
+  font-weight: 600;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.filter-field-control {
+  position: relative;
+  display: block;
+}
+
+.filter-field-control select {
+  width: 100%;
+  padding: 11px 38px 11px 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: var(--text-small);
+  font-weight: 600;
+  cursor: pointer;
+  appearance: none;
+  transition:
+    border-color var(--dur-base) var(--ease),
+    box-shadow var(--dur-base) var(--ease),
+    transform var(--dur-base) var(--ease);
+}
+
+.filter-field-control select:hover {
+  border-color: var(--walnut);
+}
+
+.filter-field-control select:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgb(174 127 61 / 18%);
+  transform: translateY(-1px);
+}
+
+/* Chevron rotates when the control has focus, hinting at the open list. */
+.filter-field-chevron {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  color: var(--walnut);
+  pointer-events: none;
+  transform: translateY(-50%);
+  transition: transform var(--dur-base) var(--ease);
+}
+
+.filter-field-control select:focus ~ .filter-field-chevron {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+/* ---------- Active filter chips ---------- */
+
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 6px 6px 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--surface-sunk);
+  font-size: var(--text-tiny);
+  animation: filter-chip-in var(--dur-base) var(--ease) var(--chip-delay, 0ms)
+    both;
+}
+
+@keyframes filter-chip-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .filter-chip {
+    animation: none;
+  }
+}
+
+.filter-chip-label {
+  color: var(--muted);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.filter-chip-value {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.filter-chip-remove {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--mist);
+  color: var(--walnut);
+  cursor: pointer;
+  transition:
+    background-color var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease),
+    transform var(--dur-fast) var(--ease);
+}
+
+.filter-chip-remove:hover {
+  background: var(--danger);
+  color: #fff;
+  transform: rotate(90deg);
+}
+
+@media (max-width: 620px) {
+  .filter-bar {
+    padding: var(--space-4);
+  }
+
+  .filter-bar-fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

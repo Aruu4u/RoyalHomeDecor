@@ -1,0 +1,670 @@
+/* =========================================================
+   BASE LAYER — reset, document defaults, shared primitives
+   ========================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /*
+   * scroll-padding-top keeps in-page anchors from landing
+   * underneath the sticky header.
+   */
+  scroll-padding-top: calc(var(--header-height) + 16px);
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /*
+   * The brand backdrop: a clean porcelain base with two very soft
+   * brass/emerald washes for depth. Painted once and never
+   * re-composited on scroll.
+   */
+  background-color: var(--ivory);
+  background-image:
+    radial-gradient(
+      circle at 10% 0%,
+      rgb(174 127 61 / 10%),
+      transparent 32rem
+    ),
+    radial-gradient(
+      circle at 92% 8%,
+      rgb(30 74 57 / 7%),
+      transparent 28rem
+    );
+  background-attachment: scroll;
+  background-repeat: no-repeat;
+}
+
+/* Locks scrolling while an overlay (search / drawer) is open. */
+body[data-scroll-locked="true"] {
+  overflow: hidden;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: var(--leading-snug);
+}
+
+p {
+  margin: 0;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+img,
+picture,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+select,
+textarea,
+button {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+textarea {
+  resize: vertical;
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: var(--radius-xs);
+}
+
+/* Remove the focus ring for pointer users who did not tab in. */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+::selection {
+  background: var(--champagne);
+  color: var(--ink);
+}
+
+/* =========================================================
+   LAYOUT PRIMITIVES
+   ========================================================= */
+
+.shell {
+  width: min(var(--shell), 100% - var(--gutter) * 2);
+  margin-inline: auto;
+}
+
+.shell-narrow {
+  width: min(var(--shell-narrow), 100% - var(--gutter) * 2);
+  margin-inline: auto;
+}
+
+.section {
+  padding-block: var(--section-y);
+}
+
+/*
+ * Two plain sections in a row would otherwise stack a full bottom
+ * padding against a full top padding, producing a gap twice as large as
+ * intended. Sunk sections keep their own padding, because that space is
+ * part of the tinted band rather than a gap between blocks.
+ */
+.section + .section:not(.section-sunk) {
+  padding-top: calc(var(--section-y) * 0.4);
+}
+
+.section-sunk {
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgb(244 234 220 / 65%) 18%,
+    rgb(244 234 220 / 65%) 82%,
+    transparent
+  );
+}
+
+.stack {
+  display: grid;
+  gap: var(--space-4);
+}
+
+/* =========================================================
+   TYPOGRAPHY HELPERS
+   ========================================================= */
+
+.eyebrow {
+  margin: 0;
+  color: var(--gold-deep);
+  font-family: var(--font-body);
+  font-size: var(--text-tiny);
+  font-weight: 700;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+}
+
+.lede {
+  color: var(--walnut);
+  font-size: 1.05rem;
+  line-height: var(--leading-body);
+}
+
+.muted-text {
+  color: var(--muted);
+}
+
+.serif {
+  font-family: var(--font-display);
+}
+
+/* Screen-reader-only, still focusable. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px
+  ;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: var(--z-toast);
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-pill);
+  background: var(--ink);
+  color: var(--ivory);
+  font-size: var(--text-small);
+  font-weight: 700;
+  transform: translateY(-160%);
+  transition: transform var(--dur-base) var(--ease);
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 14px 28px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-small);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-align: center;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-base) var(--ease),
+    border-color var(--dur-base) var(--ease),
+    color var(--dur-base) var(--ease),
+    box-shadow var(--dur-base) var(--ease),
+    transform var(--dur-base) var(--ease);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.btn-primary {
+  background: var(--ink);
+  color: var(--ivory);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--espresso);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/*
+ * The headline call to action. A subtle brass gradient plus an inner
+ * highlight reads as metal rather than as a flat colour swatch.
+ */
+.btn-gold {
+  background-image: linear-gradient(180deg, var(--gold-bright), var(--gold));
+  color: #fff;
+  box-shadow: var(--shadow-gold), var(--shadow-inset-line);
+  text-shadow: 0 1px 1px rgb(83 57 20 / 35%);
+}
+
+.btn-gold:hover:not(:disabled) {
+  background-image: linear-gradient(180deg, var(--gold), var(--gold-deep));
+  transform: translateY(-2px);
+}
+
+.btn-emerald {
+  background: var(--emerald);
+  color: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-emerald:hover:not(:disabled) {
+  background: var(--emerald-soft);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-outline {
+  border-color: var(--line-strong);
+  background: transparent;
+  color: var(--ink);
+}
+
+.btn-outline:hover:not(:disabled) {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--ivory);
+}
+
+.btn-ghost {
+  padding: 10px 14px;
+  background: transparent;
+  color: var(--walnut);
+}
+
+.btn-ghost:hover:not(:disabled) {
+  color: var(--ink);
+}
+
+.btn-quiet {
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid currentcolor;
+  border-radius: 0;
+  background: transparent;
+  color: var(--walnut);
+  font-size: var(--text-small);
+  font-weight: 700;
+}
+
+.btn-quiet:hover:not(:disabled) {
+  color: var(--ink);
+}
+
+.btn-danger-quiet {
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid currentcolor;
+  border-radius: 0;
+  background: transparent;
+  color: var(--danger);
+  font-size: var(--text-small);
+  font-weight: 700;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.btn-lg {
+  padding: 17px 36px;
+  font-size: var(--text-body);
+}
+
+.btn-sm {
+  padding: 9px 18px;
+  font-size: var(--text-tiny);
+}
+
+/* Underlined text link used for "View all" style affordances. */
+.link-underline {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding-bottom: 3px;
+  border-bottom: 1px solid var(--line-strong);
+  color: var(--ink);
+  font-size: var(--text-small);
+  font-weight: 700;
+  transition:
+    border-color var(--dur-base) var(--ease),
+    gap var(--dur-base) var(--ease);
+}
+
+.link-underline:hover {
+  border-color: var(--gold);
+  gap: var(--space-3);
+}
+
+/* =========================================================
+   FORM CONTROLS
+   ========================================================= */
+
+.field {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.field > label,
+.field-label {
+  color: var(--espresso);
+  font-size: var(--text-small);
+  font-weight: 700;
+}
+
+.field-hint {
+  color: var(--muted);
+  font-size: var(--text-tiny);
+}
+
+.field-error {
+  color: var(--danger);
+  font-size: var(--text-tiny);
+  font-weight: 600;
+}
+
+.control {
+  width: 100%;
+  padding: 13px 16px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--ink);
+  transition:
+    border-color var(--dur-base) var(--ease),
+    box-shadow var(--dur-base) var(--ease);
+}
+
+.control::placeholder {
+  color: var(--muted-soft);
+}
+
+.control:hover:not(:disabled) {
+  border-color: var(--muted);
+}
+
+.control:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgb(181 139 84 / 18%);
+}
+
+.control:disabled {
+  background: var(--surface-sunk);
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+select.control {
+  appearance: none;
+  padding-right: 40px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5 6 6.5l5-5' stroke='%236d5546' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--walnut);
+  font-size: var(--text-small);
+  cursor: pointer;
+}
+
+.checkbox-row input {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--gold);
+  cursor: pointer;
+}
+
+/* =========================================================
+   CARDS, BADGES, NOTICES
+   ========================================================= */
+
+.panel {
+  padding: clamp(20px, 3vw, 34px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.panel-flush {
+  padding: 0;
+  overflow: hidden;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-tiny);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.badge-gold {
+  background: var(--champagne);
+  color: var(--espresso);
+}
+
+.badge-ink {
+  background: var(--ink);
+  color: var(--ivory);
+}
+
+.badge-success {
+  background: var(--success-bg);
+  color: var(--success);
+}
+
+.badge-warning {
+  background: var(--warning-bg);
+  color: var(--warning);
+}
+
+.badge-danger {
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+
+.badge-neutral {
+  background: var(--mist);
+  color: var(--walnut);
+}
+
+.badge-emerald {
+  background: var(--emerald);
+  color: #fff;
+}
+
+/* Discount flag. Gradient keeps it emphatic without shouting. */
+.badge-sale {
+  gap: 5px;
+  background-image: linear-gradient(135deg, var(--sale-bright), var(--sale));
+  color: #fff;
+  box-shadow: 0 4px 12px rgb(158 43 37 / 30%);
+}
+
+.notice {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: 14px 18px;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-small);
+  line-height: 1.6;
+}
+
+.notice-error {
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+
+.notice-success {
+  background: var(--success-bg);
+  color: var(--success);
+}
+
+.notice-info {
+  background: var(--info-bg);
+  color: var(--walnut);
+}
+
+.notice-warning {
+  background: var(--warning-bg);
+  color: var(--warning);
+}
+
+/* =========================================================
+   MOTION PRIMITIVES
+   ========================================================= */
+
+/*
+ * Scroll reveal. The hidden state is applied by the Reveal
+ * component only after it has registered with the observer,
+ * so content is never stuck invisible if JS fails.
+ */
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, 22px, 0);
+  transition:
+    opacity var(--dur-reveal) var(--ease) var(--reveal-delay, 0ms),
+    transform var(--dur-reveal) var(--ease) var(--reveal-delay, 0ms);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.page-enter {
+  animation: page-enter var(--dur-slow) var(--ease) both;
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Shimmer used by every skeleton in the app. */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background: var(--mist);
+}
+
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 20%,
+    rgb(255 253 249 / 70%) 50%,
+    transparent 80%
+  );
+  transform: translateX(-100%);
+  animation: skeleton-sweep 1.3s var(--ease-in-out) infinite;
+}
+
+@keyframes skeleton-sweep {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton::after {
+    animation: none;
+  }
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgb(255 255 255 / 35%);
+  border-top-color: currentcolor;
+  border-radius: 50%;
+  animation: spin 700ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(1turn);
+  }
+}

@@ -1,0 +1,691 @@
+/* =========================================================
+   ISOLATED LUXURY HOMEPAGE REDESIGN
+   Remove this stylesheet import to restore the old design.
+   ========================================================= */
+
+.luxury-home {
+  width: 100%;
+  overflow: hidden;
+  background: #f8f4ee;
+  color: #30251f;
+}
+
+/* =========================
+   HERO
+   ========================= */
+
+.luxury-home .hero {
+  position: relative;
+  isolation: isolate;
+  width: 100vw;
+  min-height: 720px;
+  margin: 0 0 0 calc(50% - 50vw);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  background:
+    linear-gradient(
+      90deg,
+      #f1e7dc 0%,
+      #eee3d6 42%,
+      #d8c7b4 100%
+    );
+}
+
+/*
+  The existing hero image is placed on the right.
+  The gradient blends it naturally into the left text area.
+*/
+
+.luxury-home .hero::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 0 42%;
+  z-index: 0;
+
+  background:
+    url("../assets/hero.png")
+    center / cover no-repeat;
+
+  filter: blur(2px);
+  transform: scale(1.015);
+  pointer-events: none;
+}
+
+.luxury-home .hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+
+  background:
+    linear-gradient(
+      90deg,
+      #f1e7dc 0%,
+      rgb(241 231 220 / 96%) 28%,
+      rgb(241 231 220 / 66%) 48%,
+      rgb(241 231 220 / 10%) 70%,
+      transparent 100%
+    );
+
+  pointer-events: none;
+}
+
+.luxury-home .hero-overlay {
+  display: none;
+}
+
+.luxury-home .hero-content {
+  position: relative;
+  z-index: 2;
+  width: min(1280px, calc(100% - 72px));
+  margin: 0 auto;
+  padding: 150px 0 110px;
+  color: #30251f;
+}
+
+.luxury-home .hero-content > * {
+  max-width: 560px;
+}
+
+.luxury-home .hero .eyebrow {
+  margin: 0 0 22px;
+  color: #8b705b;
+  font-size: 0.73rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.luxury-home .hero h1 {
+  max-width: 610px;
+  margin: 0 0 24px;
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+  font-size: clamp(3.5rem, 7vw, 6.4rem);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  color: #30251f;
+}
+
+.luxury-home .hero-copy {
+  max-width: 500px;
+  margin: 0;
+  color: #62544a;
+  font-size: 1.05rem;
+  line-height: 1.85;
+}
+
+.luxury-home .hero .primary-button {
+  min-height: 52px;
+  margin-top: 32px;
+  padding: 0 24px;
+  border: 1px solid #3c2d23;
+  border-radius: 3px;
+  background: #3c2d23;
+  color: #fff;
+  font-size: 0.84rem;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: none;
+}
+
+.luxury-home .hero .primary-button:hover {
+  background: #5a4435;
+  transform: translateY(-1px);
+}
+
+/* =========================
+   TRANSPARENT HEADER
+   ========================= */
+
+.luxury-home ~ * {
+  box-sizing: border-box;
+}
+
+.site-header-transparent {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.site-header-transparent .brand,
+.site-header-transparent .header-icon-link,
+.site-header-transparent .header-icon-button {
+  color: #30251f;
+}
+
+.site-header-transparent .header-icon-button,
+.site-header-transparent .header-icon-link {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* =========================
+   INFINITE MENU SECTION
+   ========================= */
+
+.luxury-home
+.infinite-menu-section {
+  position: relative;
+  isolation: isolate;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  padding: 52px 0 34px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+
+  background:
+    radial-gradient(
+      circle at 50% 48%,
+      rgb(255 247 229 / 92%) 0%,
+      rgb(247 230 202 / 76%) 34%,
+      rgb(239 220 191 / 45%) 62%,
+      transparent 82%
+    ),
+    linear-gradient(
+      180deg,
+      #f4e9dc 0%,
+      #f8eee1 54%,
+      #f3e4cf 100%
+    );
+
+  color: #30251f;
+}
+
+.luxury-home
+.infinite-menu-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+
+  background:
+    radial-gradient(
+      circle at 14% 45%,
+      rgb(255 255 255 / 42%),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 87% 52%,
+      rgb(255 255 255 / 36%),
+      transparent 32%
+    );
+
+  pointer-events: none;
+}
+
+.luxury-home
+.infinite-menu-heading {
+  width: min(1280px, calc(100% - 48px));
+  margin: 0 auto 4px;
+  text-align: center;
+}
+
+.luxury-home
+.infinite-menu-heading .eyebrow,
+.luxury-home
+.infinite-menu-heading h2 {
+  display: none;
+}
+
+.luxury-home
+.infinite-menu-heading > p:last-child {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: none;
+  margin: 0;
+  color: #6c5d52;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.luxury-home
+.infinite-menu-heading > p:last-child::before {
+  content: "↔";
+  color: #4f4035;
+  font-size: 1.25rem;
+}
+
+.luxury-home
+.infinite-menu-stage {
+  position: relative;
+  width: 100vw;
+  height: 580px;
+  margin-left: calc(50% - 50vw);
+  overflow: hidden;
+
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.luxury-home
+.infinite-menu-stage::before,
+.luxury-home
+.infinite-menu-stage::after {
+  display: none;
+}
+
+.luxury-home
+#infinite-grid-menu-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+
+  border: 0;
+  outline: 0;
+  background: transparent;
+  box-shadow: none;
+  cursor: grab;
+}
+
+.luxury-home
+#infinite-grid-menu-canvas:active {
+  cursor: grabbing;
+}
+
+.luxury-home
+.infinite-menu-section
+.face-title {
+  position: absolute;
+  top: 50%;
+  left: max(7vw, 30px);
+  z-index: 4;
+  max-width: 8ch;
+  margin: 0;
+
+  color: #30251f;
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+  font-size: clamp(2.8rem, 5vw, 5rem);
+  font-weight: 500;
+  line-height: 0.98;
+}
+
+.luxury-home
+.infinite-menu-section
+.face-description {
+  position: absolute;
+  top: 50%;
+  right: max(7vw, 30px);
+  z-index: 4;
+  max-width: 19ch;
+  margin: 0;
+
+  color: #6b5d53;
+  font-size: 0.98rem;
+  line-height: 1.65;
+}
+
+.luxury-home
+.infinite-menu-section
+.face-title.active,
+.luxury-home
+.infinite-menu-section
+.face-description.active {
+  opacity: 1;
+  transform: translateY(-50%);
+}
+
+.luxury-home
+.infinite-menu-section
+.face-title.inactive {
+  opacity: 0;
+  transform: translate(-18px, -50%);
+}
+
+.luxury-home
+.infinite-menu-section
+.face-description.inactive {
+  opacity: 0;
+  transform: translate(18px, -50%);
+}
+
+.luxury-home
+.infinite-menu-section
+.action-button {
+  position: absolute;
+  bottom: 36px;
+  left: 50%;
+  z-index: 8;
+
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+
+  border: 1px solid rgb(255 255 255 / 88%);
+  border-radius: 50%;
+  background: rgb(38 30 25 / 70%);
+  color: #fff;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.luxury-home
+.infinite-menu-section
+.action-button:hover {
+  background: #30251f;
+}
+
+.luxury-home
+.infinite-menu-section
+.action-button-icon {
+  font-size: 21px;
+}
+
+/* =========================
+   COLLECTIONS INTRO
+   ========================= */
+
+.collections-editorial-intro {
+  width: 100%;
+  padding: 72px 24px 44px;
+  background: #fff;
+  text-align: center;
+}
+
+.collections-editorial-intro .eyebrow {
+  margin: 0 0 13px;
+  color: #a37d5e;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.collections-editorial-intro h2 {
+  margin: 0 0 14px;
+  color: #30251f;
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+  font-size: clamp(2.3rem, 5vw, 4rem);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.collections-editorial-intro p:last-child {
+  max-width: 620px;
+  margin: 0 auto;
+  color: #786b62;
+  line-height: 1.7;
+}
+
+/* =========================
+   COLLECTION PRODUCT AREAS
+   ========================= */
+
+.luxury-home
+.collections-showcase {
+  width: 100%;
+  margin: 0;
+  padding: 0 0 100px;
+  background: #fff;
+}
+
+.luxury-home
+.collection-section {
+  position: relative;
+  isolation: isolate;
+  width: min(1320px, calc(100% - 48px));
+  min-height: 0;
+  margin: 0 auto;
+  padding: 64px 0 76px;
+
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.luxury-home
+.collection-section + .collection-section {
+  border-top: 1px solid #e8dfd7;
+}
+
+.luxury-home
+.collection-section-background,
+.luxury-home
+.collection-section-overlay {
+  display: none;
+}
+
+.luxury-home
+.collection-section-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.luxury-home
+.collection-introduction {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto 38px;
+  text-align: center;
+}
+
+.luxury-home
+.collection-introduction h2 {
+  margin: 0 0 13px;
+  color: #30251f;
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 500;
+}
+
+.luxury-home
+.collection-description {
+  max-width: 620px;
+  margin: 0 auto;
+  color: #786b62;
+  line-height: 1.7;
+}
+
+.luxury-home
+.collection-products {
+  display: grid;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.luxury-home
+.product-card-shell {
+  position: relative;
+  min-width: 0;
+}
+
+.luxury-home
+.hover-product-card {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.luxury-home
+.hover-product-image {
+  position: relative;
+  aspect-ratio: 4 / 4.5;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #eee7df;
+  box-shadow: none;
+}
+
+.luxury-home
+.hover-product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.luxury-home
+.product-card-summary {
+  padding: 16px 2px 0;
+  background: transparent;
+  backdrop-filter: none;
+}
+
+.luxury-home
+.product-card-summary h3 {
+  margin: 0 0 7px;
+  color: #30251f;
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+  font-size: 1.18rem;
+  font-weight: 500;
+}
+
+.luxury-home
+.product-card-summary strong {
+  color: #6c5a4c;
+  font-size: 0.88rem;
+}
+
+/* Minimal white heart */
+
+.luxury-home
+.product-card-favourite-button {
+  top: 14px;
+  right: 14px;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #fff;
+  box-shadow: none;
+}
+
+.luxury-home
+.product-card-favourite-button:hover,
+.luxury-home
+.product-card-favourite-button.active {
+  border: 0;
+  background: transparent;
+  color: #fff;
+  box-shadow: none;
+  transform: scale(1.08);
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 980px) {
+  .luxury-home .hero::before {
+    inset: 0 0 0 32%;
+  }
+
+  .luxury-home .hero::after {
+    background:
+      linear-gradient(
+        90deg,
+        #f1e7dc 0%,
+        rgb(241 231 220 / 92%) 42%,
+        rgb(241 231 220 / 28%) 72%,
+        transparent 100%
+      );
+  }
+
+  .luxury-home
+  .collection-products {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .luxury-home
+  .infinite-menu-section
+  .face-title,
+  .luxury-home
+  .infinite-menu-section
+  .face-description {
+    display: none;
+  }
+}
+
+@media (max-width: 680px) {
+  .luxury-home .hero {
+    min-height: 690px;
+    align-items: flex-end;
+  }
+
+  .luxury-home .hero::before {
+    inset: 0;
+    background-position: 65% center;
+  }
+
+  .luxury-home .hero::after {
+    background:
+      linear-gradient(
+        180deg,
+        rgb(42 31 24 / 5%) 0%,
+        rgb(241 231 220 / 50%) 43%,
+        #f1e7dc 72%,
+        #f1e7dc 100%
+      );
+  }
+
+  .luxury-home .hero-content {
+    width: calc(100% - 36px);
+    padding: 250px 0 60px;
+  }
+
+  .luxury-home .hero h1 {
+    font-size: clamp(3rem, 15vw, 4.6rem);
+  }
+
+  .luxury-home
+  .infinite-menu-section {
+    padding-top: 38px;
+  }
+
+  .luxury-home
+  .infinite-menu-stage {
+    height: 460px;
+  }
+
+  .collections-editorial-intro {
+    padding: 60px 18px 36px;
+  }
+
+  .luxury-home
+  .collection-section {
+    width: calc(100% - 28px);
+    padding: 52px 0 64px;
+  }
+
+  .luxury-home
+  .collection-products {
+    grid-template-columns: 1fr;
+  }
+}

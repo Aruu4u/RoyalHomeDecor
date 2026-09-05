@@ -1,0 +1,752 @@
+/* =========================================================
+   SHARED UI PRIMITIVES
+   ========================================================= */
+
+/* ---------- SmartImage ---------- */
+
+.smart-image {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  background: var(--mist);
+}
+
+.smart-image::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    #e9dcca 18%,
+    #f9f1e6 44%,
+    #e6d8c6 68%
+  );
+  background-size: 220% 100%;
+  animation: smart-image-shimmer 1.4s var(--ease-in-out) infinite;
+}
+
+/* Once loaded, the shimmer layer is removed from the paint tree. */
+.smart-image.is-loaded::before {
+  content: none;
+}
+
+@keyframes smart-image-shimmer {
+  from {
+    background-position: 180% 0;
+  }
+
+  to {
+    background-position: -40% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smart-image::before {
+    animation: none;
+  }
+}
+
+.smart-image img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  /*
+   * Short on purpose. A long fade on every card made the grid feel
+   * slow even when the images themselves arrived quickly.
+   */
+  transition: opacity 200ms var(--ease-out);
+}
+
+.smart-image.is-loaded img {
+  opacity: 1;
+}
+
+/* Already cached: show it immediately, no fade. */
+.smart-image.is-instant img {
+  transition: none;
+}
+
+.smart-image-fallback {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: var(--space-4);
+  background: linear-gradient(135deg, var(--linen), var(--sand));
+  color: var(--muted);
+  font-size: var(--text-tiny);
+  letter-spacing: var(--tracking-wide);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* ---------- Section heading ---------- */
+
+.section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-6);
+  margin-bottom: clamp(22px, 2.6vw, 36px);
+}
+
+.section-heading-main {
+  display: grid;
+  gap: var(--space-3);
+  max-width: 760px;
+}
+
+.section-heading-title {
+  font-size: var(--text-display);
+  line-height: var(--leading-tight);
+}
+
+.section-heading-description {
+  color: var(--walnut);
+  font-size: 1.02rem;
+  line-height: var(--leading-body);
+}
+
+.section-heading-action {
+  flex-shrink: 0;
+  padding-bottom: 6px;
+}
+
+.section-heading-center {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.section-heading-center .section-heading-main {
+  justify-items: center;
+}
+
+@media (max-width: 720px) {
+  .section-heading {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+  }
+}
+
+/* ---------- Carousel ---------- */
+
+.carousel {
+  position: relative;
+}
+
+.carousel-track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: var(--space-5);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  /* Bleed to the page edge on mobile so cards can be swiped naturally. */
+  padding-block-end: var(--space-2);
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+
+.carousel-track::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-track > * {
+  scroll-snap-align: start;
+}
+
+.carousel-track:focus-visible {
+  outline-offset: 8px;
+}
+
+/* Four across on desktop, fewer as space shrinks. */
+.carousel-rail {
+  grid-auto-columns: calc((100% - var(--space-5) * 3) / 4);
+}
+
+@media (max-width: 1180px) {
+  .carousel-rail {
+    grid-auto-columns: calc((100% - var(--space-5) * 2) / 3);
+  }
+}
+
+@media (max-width: 880px) {
+  .carousel-rail {
+    grid-auto-columns: calc((100% - var(--space-5)) / 2);
+  }
+}
+
+@media (max-width: 560px) {
+  .carousel-rail {
+    grid-auto-columns: 78%;
+  }
+}
+
+.carousel-controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  margin-top: var(--space-5);
+}
+
+.carousel-button {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  transition:
+    background-color var(--dur-base) var(--ease),
+    border-color var(--dur-base) var(--ease),
+    color var(--dur-base) var(--ease),
+    opacity var(--dur-base) var(--ease);
+}
+
+.carousel-button:hover:not(:disabled) {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--ivory);
+}
+
+.carousel-button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* ---------- Accordion ---------- */
+
+.accordion {
+  display: grid;
+  border-top: 1px solid var(--line);
+}
+
+.accordion-item {
+  border-bottom: 1px solid var(--line);
+}
+
+.accordion-heading {
+  margin: 0;
+  font-family: var(--font-body);
+}
+
+.accordion-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  width: 100%;
+  padding: 22px 4px;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 1.12rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: color var(--dur-base) var(--ease);
+}
+
+.accordion-trigger:hover {
+  color: var(--gold-deep);
+}
+
+.accordion-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  color: var(--walnut);
+  transition:
+    background-color var(--dur-base) var(--ease),
+    border-color var(--dur-base) var(--ease),
+    color var(--dur-base) var(--ease);
+}
+
+.accordion-item.is-open .accordion-icon {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--ivory);
+}
+
+/* Rotating the vertical bar turns the plus into a minus. */
+.accordion-icon-bar {
+  transform-origin: center;
+  transition: transform var(--dur-base) var(--ease);
+}
+
+.accordion-item.is-open .accordion-icon-bar {
+  transform: rotate(90deg);
+}
+
+/*
+ * Animating grid-template-rows between 0fr and 1fr gives a smooth
+ * height transition without hard-coding a max-height.
+ */
+.accordion-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--dur-base) var(--ease);
+}
+
+.accordion-item.is-open .accordion-panel {
+  grid-template-rows: 1fr;
+}
+
+.accordion-panel-inner {
+  overflow: hidden;
+  color: var(--walnut);
+  font-size: var(--text-small);
+  line-height: var(--leading-body);
+}
+
+.accordion-item.is-open .accordion-panel-inner {
+  padding-bottom: 22px;
+}
+
+/* ---------- Quantity stepper ---------- */
+
+.stepper {
+  display: inline-grid;
+  grid-template-columns: 38px minmax(44px, 1fr) 38px;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+}
+
+.stepper-button {
+  min-height: 40px;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease);
+}
+
+.stepper-button:hover:not(:disabled) {
+  background: var(--linen);
+}
+
+.stepper-button:disabled {
+  color: var(--muted-soft);
+  cursor: not-allowed;
+}
+
+.stepper-input {
+  min-width: 0;
+  border: 0;
+  border-inline: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  font-size: var(--text-small);
+  font-weight: 700;
+  text-align: center;
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.stepper-input:focus {
+  outline: none;
+  background: var(--linen);
+}
+
+.stepper-input::-webkit-inner-spin-button,
+.stepper-input::-webkit-outer-spin-button {
+  margin: 0;
+  appearance: none;
+}
+
+/* ---------- Product grid ---------- */
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(248px, 1fr));
+  gap: clamp(18px, 2.2vw, 30px);
+}
+
+.product-grid-tight {
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+/* ---------- Skeletons ---------- */
+
+.product-card-skeleton {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.product-card-skeleton-image {
+  aspect-ratio: var(--card-aspect);
+  border-radius: var(--radius-md);
+}
+
+.product-card-skeleton-line {
+  height: 13px;
+  border-radius: var(--radius-xs);
+}
+
+.product-card-skeleton-line.is-short {
+  width: 42%;
+}
+
+.page-loader {
+  display: grid;
+  place-items: center;
+  gap: var(--space-4);
+  min-height: 62vh;
+  color: var(--muted);
+  font-size: var(--text-small);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.page-loader-mark {
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--line-strong);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 900ms linear infinite;
+}
+
+/* ---------- Empty / error state ---------- */
+
+.empty-state {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-4);
+  max-width: 620px;
+  margin-inline: auto;
+  padding: clamp(38px, 5vw, 64px) clamp(22px, 4vw, 46px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+}
+
+.empty-state h2 {
+  font-size: var(--text-title);
+}
+
+.empty-state-description {
+  color: var(--walnut);
+  line-height: var(--leading-body);
+}
+
+/* =========================================================
+   ORDER SUMMARY BLOCK
+
+   Shared by the cart and checkout pages so the totals panel
+   reads identically in both places.
+   ========================================================= */
+
+.cart-summary-title {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 500;
+}
+
+.cart-summary-row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-block: var(--space-3);
+  border-bottom: 1px solid var(--line);
+  color: var(--walnut);
+  font-size: var(--text-small);
+}
+
+.cart-shipping-hint {
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--warning-bg);
+  color: var(--warning);
+  font-size: var(--text-tiny);
+}
+
+.cart-summary-total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-block: var(--space-3);
+  font-size: 1.05rem;
+}
+
+.cart-summary-total strong {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+}
+
+.cart-summary-note {
+  color: var(--muted);
+  font-size: var(--text-tiny);
+  line-height: 1.55;
+  text-align: center;
+}
+
+.cart-continue {
+  justify-self: center;
+}
+
+/* =========================================================
+   BREADCRUMB — shared by the product and order detail pages
+   ========================================================= */
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: clamp(20px, 3vw, 36px);
+  color: var(--muted);
+  font-size: var(--text-tiny);
+}
+
+.breadcrumb a {
+  transition: color var(--dur-base) var(--ease);
+}
+
+.breadcrumb a:hover {
+  color: var(--gold-deep);
+}
+
+.breadcrumb [aria-current="page"] {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* =========================================================
+   CONFIRM DIALOG
+   ========================================================= */
+
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: grid;
+  place-items: center;
+  padding: var(--gutter);
+}
+
+.confirm-backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgb(23 18 15 / 52%);
+  backdrop-filter: blur(3px);
+  cursor: pointer;
+  animation: fade-in var(--dur-base) var(--ease) both;
+}
+
+.confirm-dialog {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+  width: min(430px, 100%);
+  padding: clamp(26px, 4vw, 38px) clamp(22px, 3.4vw, 34px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+  animation: confirm-in var(--dur-base) var(--ease) both;
+}
+
+@keyframes confirm-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.confirm-mark {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+
+.confirm-title {
+  font-size: 1.4rem;
+}
+
+.confirm-message {
+  color: var(--walnut);
+  font-size: var(--text-small);
+  line-height: var(--leading-body);
+}
+
+.confirm-subject {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-sunk);
+  color: var(--espresso);
+  font-family: var(--font-display);
+  font-size: 1rem;
+}
+
+.confirm-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+/* Solid destructive button, only used inside confirmations. */
+.btn-danger-solid {
+  background: var(--danger);
+  color: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-danger-solid:hover:not(:disabled) {
+  background: #7d201a;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+.toast {
+  position: fixed;
+  right: var(--gutter);
+  bottom: var(--gutter);
+  z-index: var(--z-toast);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-3);
+  overflow: hidden;
+  width: min(380px, calc(100vw - var(--gutter) * 2));
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-lg);
+  animation: toast-in var(--dur-base) var(--ease) both;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.toast-icon {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+}
+
+.toast.is-success .toast-icon {
+  background: var(--success-bg);
+  color: var(--success);
+}
+
+.toast.is-error .toast-icon {
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+
+.toast-message {
+  color: var(--espresso);
+  font-size: var(--text-small);
+  line-height: 1.45;
+}
+
+.toast-close {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition:
+    background-color var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease);
+}
+
+.toast-close:hover {
+  background: var(--linen);
+  color: var(--ink);
+}
+
+/* Time-remaining bar along the bottom edge. */
+.toast-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  transform-origin: left;
+  animation-name: toast-progress;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.toast.is-success .toast-progress {
+  background: var(--success);
+}
+
+.toast.is-error .toast-progress {
+  background: var(--danger);
+}
+
+@keyframes toast-progress {
+  from {
+    transform: scaleX(1);
+  }
+
+  to {
+    transform: scaleX(0);
+  }
+}
+
+/* Sits above the offline / slow-connection strips when both show. */
+@media (max-width: 560px) {
+  .toast {
+    bottom: calc(var(--gutter) + 44px);
+  }
+}

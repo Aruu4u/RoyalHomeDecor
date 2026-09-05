@@ -1,0 +1,9 @@
+/* =========================================================
+   ROYAL HOME DECOR — GLOBAL ENTRY STYLESHEET
+
+   Order matters: tokens define the variables that every other
+   layer reads, so it must come first.
+   ========================================================= */
+
+@import "./theme/tokens.css";
+@import "./theme/base.css";

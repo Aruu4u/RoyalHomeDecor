@@ -1,0 +1,453 @@
+.about-luxury-section {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  overflow: hidden;
+
+  padding:
+    clamp(90px, 11vw, 150px)
+    24px;
+
+  background:
+    radial-gradient(
+      circle at 78% 32%,
+      rgb(229 203 163 / 34%),
+      transparent 31rem
+    ),
+    radial-gradient(
+      circle at 8% 85%,
+      rgb(170 130 98 / 10%),
+      transparent 25rem
+    ),
+    linear-gradient(
+      145deg,
+      #fffaf3 0%,
+      #f3e7d8 48%,
+      #eee0d0 100%
+    );
+
+  color: #30231c;
+}
+
+.about-luxury-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+
+  opacity: 0.18;
+
+  background-image:
+    linear-gradient(
+      rgb(78 56 42 / 5%)
+        1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgb(78 56 42 / 4%)
+        1px,
+      transparent 1px
+    );
+
+  background-size:
+    52px 52px;
+
+  mask-image:
+    linear-gradient(
+      90deg,
+      #000,
+      transparent 82%
+    );
+}
+
+.about-luxury-glow {
+  position: absolute;
+  top: 17%;
+  right: -8%;
+  z-index: -1;
+
+  width: 520px;
+  height: 520px;
+
+  border-radius: 50%;
+
+  background:
+    rgb(225 194 151 / 22%);
+
+  filter: blur(90px);
+  pointer-events: none;
+}
+
+.about-luxury-inner {
+  position: relative;
+  width:
+    min(1360px, 100%);
+  min-height: 610px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns:
+    minmax(320px, 0.88fr)
+    minmax(520px, 1.12fr);
+
+  gap:
+    clamp(55px, 8vw, 125px);
+
+  align-items: center;
+}
+
+.about-luxury-copy {
+  position: relative;
+  z-index: 3;
+  max-width: 640px;
+}
+
+.about-luxury-eyebrow {
+  margin: 0 0 18px;
+
+  color: #9d744c;
+
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.about-luxury-copy h2 {
+  margin: 0;
+
+  color: #30231c;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size:
+    clamp(
+      2.8rem,
+      5.5vw,
+      5.4rem
+    );
+
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+
+.about-luxury-line {
+  display: block;
+  width: 74px;
+  height: 1px;
+  margin: 32px 0;
+
+  background:
+    linear-gradient(
+      90deg,
+      #ad8651,
+      transparent
+    );
+}
+
+.about-luxury-copy > p:not(
+  .about-luxury-eyebrow
+) {
+  max-width: 590px;
+  margin: 0 0 17px;
+
+  color: #75665c;
+
+  font-size: 1rem;
+  line-height: 1.85;
+}
+
+.about-luxury-values {
+  display: grid;
+  grid-template-columns:
+    repeat(
+      3,
+      minmax(0, 1fr)
+    );
+
+  gap: 13px;
+  margin-top: 36px;
+}
+
+.about-luxury-values article {
+  padding: 17px 14px;
+
+  border-top:
+    1px solid
+    rgb(94 69 51 / 18%);
+}
+
+.about-luxury-values strong {
+  display: block;
+
+  color: #4c372a;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 1.18rem;
+  font-weight: 500;
+}
+
+.about-luxury-values span {
+  display: block;
+  margin-top: 7px;
+
+  color: #8b7b70;
+
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.about-luxury-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+
+  margin-top: 34px;
+
+  color: #513a2c;
+
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.about-luxury-link span {
+  transition:
+    transform 220ms ease;
+}
+
+.about-luxury-link:hover span {
+  transform: translateX(7px);
+}
+
+.about-luxury-cards {
+  position: relative;
+
+  min-height: 570px;
+
+  display: grid;
+  place-items: center;
+
+  overflow: visible;
+}
+
+.about-story-card {
+  color: white;
+  background:
+    linear-gradient(
+      145deg,
+      #cebca7,
+      #8d715c
+    );
+}
+
+.about-story-card img {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  transform: scale(1.04);
+
+  transition:
+    transform 900ms
+      cubic-bezier(
+        0.16,
+        1,
+        0.3,
+        1
+      );
+}
+
+.about-story-card:hover img {
+  transform: scale(1.1);
+}
+
+.about-story-card-overlay {
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgb(30 20 14 / 10%)
+        0%,
+      rgb(30 20 14 / 34%)
+        42%,
+      rgb(30 20 14 / 90%)
+        100%
+    );
+}
+
+.about-story-card-content {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 2;
+
+  padding:
+    36px 34px 32px;
+}
+
+.about-story-card-content > span {
+  display: inline-flex;
+  margin-bottom: 14px;
+
+  color: #ead3a7;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 1.15rem;
+}
+
+.about-story-card-content h3 {
+  max-width: 380px;
+  margin: 0 0 13px;
+
+  color: white;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size:
+    clamp(
+      2rem,
+      4vw,
+      3.1rem
+    );
+
+  font-weight: 500;
+  line-height: 1;
+}
+
+.about-story-card-content p {
+  max-width: 390px;
+  margin: 0;
+
+  color:
+    rgb(255 255 255 / 76%);
+
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.about-story-card-content small {
+  display: inline-flex;
+
+  margin-top: 20px;
+  padding-bottom: 5px;
+
+  border-bottom:
+    1px solid
+    rgb(234 211 167 / 76%);
+
+  color: #ead3a7;
+
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.about-card-instruction {
+  position: absolute;
+  right: 8%;
+  bottom: 0;
+
+  margin: 0;
+
+  color: #918075;
+
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 1100px) {
+  .about-luxury-inner {
+    grid-template-columns: 1fr;
+    gap: 55px;
+  }
+
+  .about-luxury-copy {
+    max-width: 800px;
+  }
+
+  .about-luxury-cards {
+    min-height: 540px;
+  }
+}
+
+@media (max-width: 650px) {
+  .about-luxury-section {
+    padding:
+      72px 16px 35px;
+  }
+
+  .about-luxury-inner {
+    gap: 45px;
+  }
+
+  .about-luxury-copy h2 {
+    font-size:
+      clamp(
+        2.7rem,
+        13vw,
+        4.4rem
+      );
+  }
+
+  .about-luxury-values {
+    grid-template-columns: 1fr;
+  }
+
+  .about-luxury-values article {
+    display: flex;
+    align-items: baseline;
+    justify-content:
+      space-between;
+
+    gap: 20px;
+  }
+
+  .about-luxury-cards {
+    min-height: 390px;
+    overflow: hidden;
+  }
+
+  .about-card-instruction {
+    display: none;
+  }
+}
+
+@media (
+  prefers-reduced-motion:
+  reduce
+) {
+  .about-story-card img,
+  .about-luxury-link span {
+    transition: none;
+  }
+}

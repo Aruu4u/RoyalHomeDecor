@@ -1,0 +1,218 @@
+/* =========================================================
+   SERVICE NOTICE — shown for our-side failures and offline
+   ========================================================= */
+
+.service-notice {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: var(--gutter);
+  background-color: var(--ivory);
+  background-image:
+    radial-gradient(
+      circle at 12% 0%,
+      rgb(174 127 61 / 14%),
+      transparent 34rem
+    ),
+    radial-gradient(
+      circle at 88% 10%,
+      rgb(30 74 57 / 9%),
+      transparent 30rem
+    );
+}
+
+/* Inside a page the surrounding chrome is already there. */
+.service-notice.is-inline {
+  min-height: 54vh;
+  padding-block: var(--section-y);
+  background: none;
+}
+
+.service-notice-card {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-4);
+  width: min(560px, 100%);
+  padding: clamp(32px, 5vw, 56px) clamp(24px, 4vw, 48px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+  animation: service-notice-in var(--dur-slow) var(--ease) both;
+}
+
+@keyframes service-notice-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0) scale(0.99);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.service-notice-mark {
+  display: grid;
+  place-items: center;
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  background: linear-gradient(160deg, var(--linen), var(--mist));
+  color: var(--gold-deep);
+  box-shadow: var(--shadow-inset-line);
+}
+
+.service-notice-eyebrow {
+  color: var(--muted);
+}
+
+.service-notice-title {
+  font-size: clamp(1.9rem, 4.2vw, 2.7rem);
+  line-height: var(--leading-snug);
+}
+
+.service-notice-body {
+  max-width: 44ch;
+  color: var(--walnut);
+  line-height: var(--leading-body);
+}
+
+.service-notice-hint {
+  padding: 10px 18px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-sunk);
+  color: var(--espresso);
+  font-size: var(--text-small);
+  font-weight: 600;
+}
+
+.service-notice-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+/* ---------- Slim offline banner ---------- */
+
+.offline-banner {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: var(--z-toast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: 12px var(--gutter);
+  background: var(--ink);
+  color: var(--ivory);
+  font-size: var(--text-small);
+  text-align: center;
+  animation: offline-banner-in var(--dur-base) var(--ease) both;
+}
+
+@keyframes offline-banner-in {
+  from {
+    transform: translate3d(0, 100%, 0);
+  }
+
+  to {
+    transform: none;
+  }
+}
+
+.offline-banner-dot {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--sale-bright);
+  animation: offline-pulse 1.6s var(--ease-in-out) infinite;
+}
+
+@keyframes offline-pulse {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .offline-banner-dot {
+    animation: none;
+  }
+}
+
+/* =========================================================
+   SLOW CONNECTION BANNER
+   ========================================================= */
+
+.slow-banner {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: var(--z-toast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: 12px var(--gutter);
+  background: var(--espresso);
+  color: var(--ivory);
+  font-size: var(--text-small);
+  animation: slow-banner-in var(--dur-base) var(--ease) both;
+}
+
+@keyframes slow-banner-in {
+  from {
+    transform: translate3d(0, 100%, 0);
+  }
+
+  to {
+    transform: none;
+  }
+}
+
+.slow-banner-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  color: var(--champagne);
+}
+
+.slow-banner-text {
+  text-align: center;
+}
+
+.slow-banner-close {
+  flex-shrink: 0;
+  padding: 0 4px;
+  border: 0;
+  background: transparent;
+  color: rgb(250 247 242 / 70%);
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.slow-banner-close:hover {
+  color: var(--ivory);
+}
+
+/*
+ * If both banners somehow apply, the offline one is more urgent and
+ * should win the bottom slot.
+ */
+.offline-banner ~ .slow-banner {
+  display: none;
+}
+
+@media (max-width: 560px) {
+  .slow-banner {
+    font-size: var(--text-tiny);
+  }
+}

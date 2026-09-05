@@ -1,0 +1,207 @@
+/* =========================================================
+   SHOP / COLLECTION LISTING
+   ========================================================= */
+
+/* =========================================================
+   BANNER
+
+   Same layered approach as the home hero: a gradient that paints
+   immediately, the photograph fading in over it once decoded, then a
+   scrim so the type stays legible on any image.
+   ========================================================= */
+
+.shop-hero {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: clamp(260px, 34vw, 400px);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.shop-hero-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  background-color: var(--ink);
+  background-image:
+    radial-gradient(
+      ellipse at 20% 15%,
+      rgb(174 127 61 / 42%),
+      transparent 58%
+    ),
+    radial-gradient(
+      ellipse at 84% 80%,
+      rgb(30 74 57 / 50%),
+      transparent 60%
+    ),
+    linear-gradient(150deg, #2a201a 0%, #17120f 58%, #221a15 100%);
+}
+
+.shop-hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transform: scale(1.04);
+  transition:
+    opacity 900ms var(--ease),
+    transform 1400ms var(--ease);
+}
+
+.shop-hero-media.is-ready {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.shop-hero-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(
+      to top,
+      rgb(20 14 11 / 92%) 0%,
+      rgb(20 14 11 / 62%) 48%,
+      rgb(20 14 11 / 30%) 100%
+    );
+}
+
+.shop-hero-inner {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-3);
+  padding-block: clamp(30px, 4vw, 52px);
+  color: var(--ivory);
+}
+
+.shop-breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  color: rgb(250 247 242 / 62%);
+  font-size: var(--text-tiny);
+}
+
+.shop-breadcrumb a:hover {
+  color: var(--champagne);
+}
+
+.shop-breadcrumb [aria-current="page"] {
+  color: var(--ivory);
+  font-weight: 600;
+}
+
+.shop-hero-eyebrow {
+  color: var(--champagne);
+}
+
+.shop-hero-title {
+  font-size: var(--text-display);
+  font-weight: 500;
+  line-height: var(--leading-tight);
+  letter-spacing: -0.025em;
+}
+
+/* Short brass rule under the title. */
+.shop-hero-rule {
+  width: 76px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold-bright), transparent);
+}
+
+.shop-hero-copy {
+  max-width: 60ch;
+  color: rgb(250 247 242 / 84%);
+  font-size: 1.02rem;
+  line-height: var(--leading-body);
+}
+
+.shop-body {
+  padding-block: clamp(26px, 3.4vw, 44px) var(--section-y);
+}
+
+/* ---------- Toolbar ---------- */
+
+/*
+ * The filter bar sits between the banner and the grid on its own
+ * surface, so it reads as a distinct control strip rather than as part
+ * of either the banner or the products.
+ */
+.shop-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-5);
+  margin-bottom: var(--space-6);
+  padding: var(--space-5);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.shop-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.shop-filter {
+  display: grid;
+  gap: 6px;
+  min-width: 168px;
+}
+
+.shop-filter .control {
+  padding-block: 10px;
+  font-size: var(--text-small);
+}
+
+.shop-toolbar-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-5);
+  padding-bottom: 4px;
+}
+
+.shop-search-note {
+  margin-bottom: var(--space-4);
+  color: var(--walnut);
+  font-size: var(--text-small);
+}
+
+.shop-count {
+  margin-bottom: var(--space-4);
+  color: var(--muted);
+  font-size: var(--text-tiny);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.shop-load-more {
+  display: grid;
+  place-items: center;
+  margin-top: clamp(32px, 4vw, 56px);
+}
+
+.shop-inline-error {
+  margin-top: var(--space-5);
+}
+
+@media (max-width: 640px) {
+  .shop-filter {
+    min-width: 0;
+    flex: 1 1 46%;
+  }
+
+  .shop-toolbar {
+    align-items: stretch;
+  }
+}

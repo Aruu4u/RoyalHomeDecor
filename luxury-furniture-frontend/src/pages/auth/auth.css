@@ -1,0 +1,114 @@
+/* =========================================================
+   SIGN IN / SIGN UP
+   ========================================================= */
+
+.auth-page {
+  display: grid;
+  place-items: center;
+  padding-block: clamp(40px, 6vw, 90px) var(--section-y);
+}
+
+.auth-card {
+  width: min(460px, 100%);
+  display: grid;
+  gap: var(--space-5);
+  padding: clamp(26px, 4vw, 44px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+}
+
+.auth-head {
+  display: grid;
+  gap: var(--space-2);
+  text-align: center;
+}
+
+.auth-title {
+  font-size: clamp(1.8rem, 3.2vw, 2.35rem);
+}
+
+.auth-subtitle {
+  color: var(--walnut);
+  font-size: var(--text-small);
+  line-height: var(--leading-body);
+}
+
+.auth-form {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.auth-password-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.auth-reveal {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: var(--text-tiny);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.auth-reveal:hover {
+  color: var(--ink);
+}
+
+.auth-footer {
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+  color: var(--walnut);
+  font-size: var(--text-small);
+  text-align: center;
+}
+
+.auth-footer a {
+  color: var(--ink);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.auth-footer a:hover {
+  color: var(--gold-deep);
+}
+
+/* ---------- Not found ---------- */
+
+.not-found {
+  display: grid;
+  place-items: center;
+  gap: var(--space-5);
+  min-height: 58vh;
+  padding-block: var(--section-y);
+  text-align: center;
+}
+
+.not-found-code {
+  color: var(--gold);
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 12vw, 8rem);
+  line-height: 1;
+}
+
+.not-found h1 {
+  font-size: var(--text-title);
+}
+
+.not-found p {
+  max-width: 46ch;
+  color: var(--walnut);
+}
+
+.not-found-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+}

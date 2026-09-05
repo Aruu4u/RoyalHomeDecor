@@ -1,0 +1,470 @@
+/* =========================================================
+   PRODUCT REVIEWS
+   ========================================================= */
+
+.product-reviews {
+  display: grid;
+  gap: var(--space-6);
+  margin-top: var(--space-10);
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--line);
+}
+
+.product-reviews-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.product-reviews-title {
+  margin-top: 4px;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 500;
+}
+
+/* =========================================================
+   STAR RATING (read only)
+   ========================================================= */
+
+.star-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/*
+  Two stacked copies of the glyphs, the gold one clipped to the score, so a
+  4.3 reads as four and a bit stars rather than being rounded.
+*/
+.star-rating-stars {
+  position: relative;
+  display: inline-block;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.star-rating-empty {
+  color: var(--line-strong);
+}
+
+.star-rating-filled {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  width: var(--rating-fill, 0%);
+  color: var(--gold);
+  white-space: nowrap;
+}
+
+.star-rating-count {
+  color: var(--muted);
+  font-size: var(--text-tiny);
+  font-weight: 600;
+}
+
+/* =========================================================
+   AGGREGATE SUMMARY
+   ========================================================= */
+
+.review-summary {
+  display: grid;
+  gap: var(--space-6);
+  align-items: center;
+  padding: var(--space-6);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface-sunk);
+}
+
+@media (min-width: 720px) {
+  .review-summary {
+    grid-template-columns: minmax(140px, 200px) 1fr;
+    gap: var(--space-8);
+  }
+}
+
+.review-summary-score {
+  display: grid;
+  gap: var(--space-2);
+  justify-items: center;
+  text-align: center;
+}
+
+.review-summary-value {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--espresso);
+}
+
+.review-summary-score .star-rating {
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* ---------- Distribution bars ---------- */
+
+.review-bars {
+  display: grid;
+  gap: 7px;
+}
+
+.review-bar {
+  display: grid;
+  grid-template-columns: 62px 1fr 28px;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.review-bar-label,
+.review-bar-count {
+  color: var(--muted);
+  font-size: var(--text-tiny);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.review-bar-count {
+  text-align: right;
+}
+
+.review-bar-track {
+  display: block;
+  overflow: hidden;
+  height: 7px;
+  border-radius: var(--radius-pill);
+  background: var(--mist);
+}
+
+.review-bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--gold);
+  /* Grows from nothing on first paint rather than snapping into place. */
+  transition: width var(--dur-slow) var(--ease);
+}
+
+/* =========================================================
+   WRITE A REVIEW
+   ========================================================= */
+
+.review-form {
+  display: grid;
+  gap: var(--space-5);
+  padding: var(--space-6);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-xs);
+}
+
+.review-form-intro {
+  color: var(--walnut);
+  font-size: var(--text-small);
+}
+
+.review-form-field {
+  display: grid;
+  gap: 7px;
+}
+
+.review-form-row {
+  display: grid;
+  gap: var(--space-5);
+}
+
+@media (min-width: 640px) {
+  .review-form-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.field-optional {
+  color: var(--muted);
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.review-form-counter {
+  color: var(--muted);
+  font-size: var(--text-tiny);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.review-form-note {
+  color: var(--muted);
+  font-size: var(--text-tiny);
+  line-height: 1.5;
+}
+
+.review-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+/* ---------- Star input ---------- */
+
+.star-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.star-input {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.star-input-star {
+  position: relative;
+  display: inline-flex;
+  padding: 2px;
+  color: var(--line-strong);
+  font-size: 1.75rem;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    color var(--dur-fast) var(--ease),
+    transform var(--dur-fast) var(--ease);
+}
+
+.star-input-star.is-on {
+  color: var(--gold);
+}
+
+.star-input-star:hover {
+  transform: scale(1.12);
+}
+
+/*
+  The radio stays in the layer above the star and fully transparent rather
+  than being removed with display:none. That keeps it focusable and
+  keyboard-operable, and lets the focus ring be drawn on the star itself.
+*/
+.star-input-star input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.star-input-star:focus-within {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs, 4px);
+}
+
+.star-input-star input:disabled {
+  cursor: not-allowed;
+}
+
+.star-input-word {
+  color: var(--walnut);
+  font-size: var(--text-small);
+  font-weight: 600;
+}
+
+/* ---------- Photos ---------- */
+
+.review-photo-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.review-photo {
+  position: relative;
+  width: 76px;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+}
+
+.review-photo-remove {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(28 22 18 / 78%);
+  color: #fff;
+  font-size: 0.9rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.review-photo-add {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  padding: 11px 20px;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius-pill);
+  color: var(--walnut);
+  font-size: var(--text-small);
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    border-color var(--dur-base) var(--ease),
+    color var(--dur-base) var(--ease);
+}
+
+.review-photo-add:hover {
+  border-color: var(--gold);
+  color: var(--gold-deep);
+}
+
+.review-photo-add input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.review-photo-add input:disabled {
+  cursor: not-allowed;
+}
+
+/* =========================================================
+   REVIEW LIST
+   ========================================================= */
+
+.review-empty {
+  display: grid;
+  gap: var(--space-3);
+  justify-items: start;
+  padding: var(--space-6);
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius-md);
+  color: var(--muted);
+}
+
+.review-list {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.review-entry {
+  display: grid;
+  gap: var(--space-3);
+  padding-bottom: var(--space-6);
+  border-bottom: 1px solid var(--line);
+}
+
+.review-list > .review-entry:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.review-entry-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.review-entry-avatar {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--champagne);
+  color: var(--espresso);
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+}
+
+.review-entry-meta {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.review-entry-name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.review-entry-verified {
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+  background: var(--success-bg);
+  color: var(--success);
+  font-size: var(--text-tiny);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.review-entry-date {
+  color: var(--muted);
+  font-size: var(--text-tiny);
+}
+
+.review-entry-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.review-entry-body {
+  color: var(--walnut);
+  line-height: 1.7;
+  /* Keeps the customer's own paragraph breaks. */
+  white-space: pre-line;
+}
+
+.review-entry-photos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: 2px;
+}
+
+.review-entry-photos li {
+  width: 84px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+}
+
+.review-entry-photos a {
+  display: block;
+  transition: transform var(--dur-base) var(--ease);
+}
+
+.review-entry-photos a:hover {
+  transform: scale(1.04);
+}
+
+.review-list-more {
+  display: flex;
+  justify-content: center;
+}

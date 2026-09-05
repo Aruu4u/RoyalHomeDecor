@@ -1,0 +1,635 @@
+/* =========================================================
+   HOME PAGE
+   ========================================================= */
+
+/* Transient messages now use the shared Toast in components/ui. */
+
+/* ---------- Hero ---------- */
+
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: min(84vh, 760px);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/*
+ * Layered hero. Bottom to top:
+ *   .hero-backdrop  always-present gradient, paints on first frame
+ *   .hero-media     the photograph, fades in once decoded
+ *   .hero-scrim     contrast wash so the type stays legible
+ *
+ * The photograph is a background-image rather than an <img> because it
+ * is decorative and is swapped at runtime; this also lets the drift
+ * animate the layer without touching layout.
+ */
+.hero-backdrop {
+  position: absolute;
+  inset: 0;
+  /* Bottom of four layers: backdrop, fallback, photo, scrim. */
+  z-index: -4;
+  background-color: var(--ink);
+  background-image:
+    radial-gradient(
+      ellipse at 18% 12%,
+      rgb(174 127 61 / 45%),
+      transparent 58%
+    ),
+    radial-gradient(
+      ellipse at 82% 78%,
+      rgb(30 74 57 / 55%),
+      transparent 60%
+    ),
+    linear-gradient(155deg, #2a201a 0%, #17120f 55%, #221a15 100%);
+}
+
+/*
+ * Blurred stand-in between the gradient and the real photograph.
+ * Heavy blur plus a scale-up hides the low source resolution, and
+ * reduced opacity keeps it subordinate to the brand gradient.
+ */
+.hero-fallback {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  filter: blur(28px) saturate(0.85);
+  transform: scale(1.15);
+  opacity: 0.5;
+  mix-blend-mode: luminosity;
+}
+
+.hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 900ms var(--ease);
+}
+
+.hero-media.is-ready {
+  opacity: 1;
+  /* A very slow drift keeps the hero alive without demanding attention. */
+  animation: hero-drift 30s var(--ease-in-out) infinite alternate;
+}
+
+@keyframes hero-drift {
+  from {
+    transform: scale(1.02);
+  }
+
+  to {
+    transform: scale(1.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-media.is-ready {
+    animation: none;
+  }
+}
+
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(
+      100deg,
+      rgb(20 14 11 / 88%) 0%,
+      rgb(20 14 11 / 66%) 42%,
+      rgb(20 14 11 / 22%) 100%
+    ),
+    linear-gradient(to top, rgb(20 14 11 / 55%), transparent 45%);
+}
+
+.hero-inner {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-4);
+  padding-block: clamp(72px, 12vh, 132px);
+  color: var(--ivory);
+}
+
+.hero-eyebrow {
+  color: var(--champagne);
+}
+
+.hero-title {
+  max-width: 15ch;
+  font-size: var(--text-hero);
+  font-weight: 500;
+  line-height: var(--leading-tight);
+  letter-spacing: -0.03em;
+}
+
+.hero-title-accent {
+  color: var(--champagne);
+  font-style: italic;
+}
+
+.hero-copy {
+  max-width: 54ch;
+  color: rgb(255 250 242 / 84%);
+  font-size: 1.05rem;
+  line-height: var(--leading-body);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.hero-secondary {
+  border-color: rgb(255 250 242 / 55%);
+  background: rgb(255 250 242 / 10%);
+  color: var(--ivory);
+  backdrop-filter: blur(6px);
+}
+
+.hero-secondary:hover {
+  border-color: var(--ivory);
+  background: var(--ivory);
+  color: var(--ink);
+}
+
+.hero-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(24px, 4vw, 56px);
+  margin: var(--space-5) 0 0;
+  padding-top: var(--space-5);
+  border-top: 1px solid rgb(255 250 242 / 22%);
+}
+
+.hero-stats dt {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+}
+
+.hero-stats dd {
+  margin: 2px 0 0;
+  color: rgb(255 250 242 / 70%);
+  font-size: var(--text-tiny);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+/* ---------- Trust strip ---------- */
+
+.trust-strip {
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.trust-strip-inner {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(18px, 2.6vw, 40px);
+  padding-block: clamp(26px, 3.4vw, 44px);
+}
+
+.trust-point {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.trust-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--linen);
+  color: var(--gold-deep);
+}
+
+.trust-point h3 {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: 700;
+}
+
+.trust-point p {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: var(--text-tiny);
+  line-height: 1.55;
+}
+
+@media (max-width: 900px) {
+  .trust-strip-inner {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .trust-strip-inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Collections section (moving rail) ---------- */
+
+/* The rail is full-bleed, so the section clips rather than the page. */
+.collections-section {
+  overflow: hidden;
+}
+
+.collections-section-foot {
+  display: grid;
+  place-items: center;
+  margin-top: clamp(26px, 3.4vw, 44px);
+}
+
+/* ---------- Artisan story ---------- */
+
+.story-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(28px, 5vw, 76px);
+  align-items: center;
+}
+
+.story-media .smart-image {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.story-body {
+  display: grid;
+  gap: var(--space-4);
+  justify-items: start;
+}
+
+.story-title {
+  font-size: var(--text-display);
+  line-height: var(--leading-tight);
+}
+
+.story-points {
+  display: grid;
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.story-points li {
+  position: relative;
+  padding-left: 26px;
+  color: var(--walnut);
+  font-size: var(--text-small);
+}
+
+.story-points li::before {
+  content: "";
+  position: absolute;
+  top: 9px;
+  left: 4px;
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+}
+
+@media (max-width: 880px) {
+  .story-inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Testimonials ---------- */
+
+.testimonial-rail {
+  grid-auto-columns: calc((100% - var(--space-5) * 2) / 3);
+}
+
+@media (max-width: 980px) {
+  .testimonial-rail {
+    grid-auto-columns: calc((100% - var(--space-5)) / 2);
+  }
+}
+
+@media (max-width: 640px) {
+  .testimonial-rail {
+    grid-auto-columns: 86%;
+  }
+}
+
+/* =========================================================
+   REVIEWS — dark premium band
+
+   Inverted against the rest of the page on purpose: this is the
+   strongest trust signal on the site, so it gets the most visual
+   weight rather than blending into another cream section.
+   ========================================================= */
+
+.reviews-section {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--ink);
+  background-image:
+    radial-gradient(
+      ellipse at 15% 0%,
+      rgb(174 127 61 / 28%),
+      transparent 58%
+    ),
+    radial-gradient(
+      ellipse at 85% 100%,
+      rgb(30 74 57 / 38%),
+      transparent 60%
+    );
+  color: var(--ivory);
+}
+
+/* Hairline gold rules top and bottom frame the band. */
+.reviews-section::before,
+.reviews-section::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgb(201 160 90 / 60%),
+    transparent
+  );
+}
+
+.reviews-section::before {
+  top: 0;
+}
+
+.reviews-section::after {
+  bottom: 0;
+}
+
+.reviews-header {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+  margin-bottom: clamp(28px, 3.4vw, 46px);
+  text-align: center;
+}
+
+.reviews-eyebrow {
+  color: var(--champagne);
+}
+
+.reviews-title {
+  font-size: var(--text-display);
+  line-height: var(--leading-tight);
+}
+
+/* ---------- Aggregate score ---------- */
+
+.reviews-score {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-2);
+  padding: 12px 22px;
+  border: 1px solid rgb(232 213 172 / 30%);
+  border-radius: var(--radius-pill);
+  background: rgb(255 255 255 / 6%);
+  backdrop-filter: blur(8px);
+}
+
+.reviews-score-value {
+  color: var(--champagne);
+  font-family: var(--font-display);
+  font-size: 2.1rem;
+  line-height: 1;
+}
+
+.reviews-score-detail {
+  display: grid;
+  gap: 2px;
+  text-align: left;
+}
+
+.reviews-score-stars {
+  color: var(--gold-bright);
+  font-size: 0.95rem;
+  letter-spacing: 3px;
+}
+
+.reviews-score-count {
+  color: rgb(250 247 242 / 68%);
+  font-size: var(--text-tiny);
+}
+
+.reviews-lede {
+  max-width: 52ch;
+  color: rgb(250 247 242 / 76%);
+  font-size: 1.02rem;
+  line-height: var(--leading-body);
+}
+
+/* ---------- Cards on the dark band ---------- */
+
+.testimonial {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+  margin: 0;
+  padding: clamp(24px, 2.8vw, 32px);
+  border: 1px solid rgb(255 255 255 / 12%);
+  border-radius: var(--radius-lg);
+  background: rgb(255 255 255 / 5%);
+  backdrop-filter: blur(10px);
+  transition:
+    border-color var(--dur-base) var(--ease),
+    background-color var(--dur-base) var(--ease),
+    transform var(--dur-base) var(--ease);
+}
+
+.testimonial:hover {
+  border-color: rgb(201 160 90 / 45%);
+  background: rgb(255 255 255 / 8%);
+  transform: translateY(-4px);
+}
+
+.testimonial-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.testimonial-avatar {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgb(232 213 172 / 35%);
+  border-radius: 50%;
+  background: linear-gradient(
+    150deg,
+    rgb(201 160 90 / 35%),
+    rgb(255 255 255 / 6%)
+  );
+  color: var(--champagne);
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+}
+
+.testimonial-name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--ivory);
+  font-size: var(--text-small);
+  font-weight: 700;
+}
+
+.testimonial-verified {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 9px;
+  border-radius: var(--radius-pill);
+  background: rgb(44 107 82 / 45%);
+  color: #b8e6cf;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.testimonial-location {
+  color: rgb(250 247 242 / 60%);
+  font-size: var(--text-tiny);
+}
+
+.testimonial-stars {
+  font-size: 0.9rem;
+  letter-spacing: 3px;
+}
+
+.testimonial-stars-filled {
+  color: var(--gold);
+}
+
+/* Unearned stars stay visible so the scale is obvious. */
+.testimonial-stars-filled {
+  color: var(--gold-bright);
+}
+
+.testimonial-stars-empty {
+  color: rgb(255 255 255 / 22%);
+}
+
+.testimonial-quote {
+  position: relative;
+  margin: 0;
+  color: rgb(250 247 242 / 88%);
+  font-size: 0.95rem;
+  line-height: 1.75;
+}
+
+/* Oversized opening quote, set behind the text. */
+.testimonial-mark {
+  position: absolute;
+  top: -18px;
+  left: -6px;
+  z-index: -1;
+  color: rgb(201 160 90 / 30%);
+  font-family: var(--font-display);
+  font-size: 4rem;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.testimonial-product {
+  padding-top: var(--space-3);
+  border-top: 1px solid rgb(255 255 255 / 12%);
+  color: var(--champagne);
+  font-size: var(--text-tiny);
+  font-weight: 600;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+/* Arrows need inverting against the dark band. */
+.reviews-section .carousel-button {
+  border-color: rgb(255 255 255 / 22%);
+  background: rgb(255 255 255 / 8%);
+  color: var(--ivory);
+}
+
+.reviews-section .carousel-button:hover:not(:disabled) {
+  border-color: var(--champagne);
+  background: var(--champagne);
+  color: var(--ink);
+}
+
+/* ---------- FAQ ---------- */
+
+.faq-section {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(28px, 5vw, 72px);
+  align-items: start;
+}
+
+.faq-intro {
+  display: grid;
+  gap: var(--space-3);
+  position: sticky;
+  top: calc(var(--header-height) + 28px);
+}
+
+@media (max-width: 880px) {
+  .faq-section {
+    grid-template-columns: 1fr;
+  }
+
+  .faq-intro {
+    position: static;
+  }
+}
+
+/* ---------- Closing copy ---------- */
+
+.closing-copy {
+  display: grid;
+  gap: var(--space-5);
+  padding: clamp(28px, 4vw, 52px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+
+.closing-title {
+  max-width: 22ch;
+  font-size: var(--text-title);
+}
+
+.closing-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(20px, 3vw, 44px);
+  color: var(--walnut);
+  font-size: var(--text-small);
+  line-height: var(--leading-body);
+}
+
+@media (max-width: 760px) {
+  .closing-columns {
+    grid-template-columns: 1fr;
+  }
+}

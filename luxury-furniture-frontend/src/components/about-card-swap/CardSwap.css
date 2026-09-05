@@ -1,0 +1,94 @@
+.about-card-swap-container {
+  position: relative;
+  width: 100%;
+  max-width: 540px;
+  margin: 0 auto;
+
+  perspective: 1100px;
+  transform-style: preserve-3d;
+  overflow: visible;
+}
+
+.about-swap-card {
+  position: absolute;
+  top: 50%;
+  left: 45%;
+
+  overflow: hidden;
+
+  border: 1px solid
+    rgb(98 74 56 / 14%);
+
+  border-radius: 24px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fffaf3,
+      #e9dccb
+    );
+
+  box-shadow:
+    0 28px 75px
+      rgb(54 36 24 / 17%);
+
+  transform-style: preserve-3d;
+  will-change:
+    transform,
+    opacity;
+
+  backface-visibility: hidden;
+  -webkit-backface-visibility:
+    hidden;
+
+  cursor: pointer;
+}
+
+.about-swap-card:focus-visible {
+  outline: 2px solid
+    #c7a16f;
+
+  outline-offset: 5px;
+}
+
+@media (max-width: 1000px) {
+  .about-card-swap-container {
+    transform:
+      scale(0.9);
+
+    transform-origin:
+      center center;
+  }
+}
+
+@media (max-width: 650px) {
+  .about-card-swap-container {
+    width: 500px !important;
+    height: 390px !important;
+
+    transform:
+      scale(0.72);
+
+    transform-origin:
+      center top;
+  }
+}
+
+@media (max-width: 440px) {
+  .about-card-swap-container {
+    transform:
+      scale(0.58);
+
+    transform-origin:
+      center top;
+  }
+}
+
+@media (
+  prefers-reduced-motion:
+  reduce
+) {
+  .about-swap-card {
+    transition: none;
+  }
+}

@@ -1,0 +1,426 @@
+/* =========================================================
+   STOREFRONT REFINEMENTS
+
+   Includes:
+   - Header store icon
+   - Luxury shop search bar
+   - Minimal homepage collections title
+   ========================================================= */
+
+/* =========================
+   HEADER STORE ICON
+   ========================= */
+
+.header-store-link {
+  position: relative;
+
+  width: 42px;
+  height: 42px;
+
+  display: grid;
+  place-items: center;
+
+  flex: 0 0 auto;
+
+  padding: 0;
+
+  border: 0;
+  border-radius: 50%;
+
+  background: transparent;
+  color: inherit;
+
+  text-decoration: none;
+  cursor: pointer;
+
+  transition:
+    color 180ms ease,
+    background 180ms ease,
+    transform 180ms ease;
+}
+
+.header-store-link:hover {
+  color: #b58b54;
+
+  background:
+    rgb(231 211 165 / 15%);
+
+  transform: translateY(-2px);
+}
+
+.header-store-link svg {
+  width: 20px;
+  height: 20px;
+}
+
+.header-store-tooltip {
+  position: absolute;
+  top: calc(100% + 9px);
+  left: 50%;
+
+  z-index: 20;
+
+  padding: 6px 9px;
+
+  border-radius: 5px;
+
+  background: #302018;
+  color: white;
+
+  font-size: 0.65rem;
+  font-weight: 700;
+  white-space: nowrap;
+
+  opacity: 0;
+  pointer-events: none;
+
+  transform:
+    translate(-50%, -4px);
+
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+
+.header-store-link:hover
+.header-store-tooltip,
+.header-store-link:focus-visible
+.header-store-tooltip {
+  opacity: 1;
+
+  transform:
+    translate(-50%, 0);
+}
+
+/* =========================
+   SHOP SEARCH BAR
+   ========================= */
+
+.shop-search-shell {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  min-height: 68px;
+
+  padding: 7px 9px 7px 20px;
+
+  border:
+    1px solid
+    rgb(77 54 40 / 15%);
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgb(255 255 255 / 70%),
+      rgb(255 250 243 / 52%)
+    );
+
+  box-shadow:
+    0 16px 45px
+    rgb(55 36 23 / 8%),
+    inset 0 1px 0
+    rgb(255 255 255 / 74%);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  transition:
+    border-color 200ms ease,
+    box-shadow 200ms ease,
+    transform 200ms ease;
+}
+
+.shop-search-shell:focus-within {
+  border-color:
+    rgb(173 134 81 / 55%);
+
+  box-shadow:
+    0 20px 55px
+    rgb(55 36 23 / 11%),
+    0 0 0 4px
+    rgb(229 204 163 / 16%);
+
+  transform: translateY(-1px);
+}
+
+.shop-search-icon {
+  width: 42px;
+  height: 42px;
+
+  display: grid;
+  place-items: center;
+
+  flex: 0 0 auto;
+
+  border-radius: 50%;
+
+  background:
+    rgb(229 204 163 / 18%);
+
+  color: #795b43;
+}
+
+.shop-search-icon svg {
+  width: 19px;
+  height: 19px;
+}
+
+.shop-search-content {
+  min-width: 0;
+  flex: 1;
+}
+
+.shop-search-label {
+  display: block;
+
+  margin-bottom: 2px;
+
+  color: #9b7957;
+
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.shop-search-input {
+  width: 100%;
+  height: 27px;
+
+  padding: 0;
+
+  border: 0;
+  outline: 0;
+
+  background: transparent;
+
+  color: #302119;
+
+  font: inherit;
+  font-size: 0.93rem;
+}
+
+.shop-search-input::placeholder {
+  color:
+    rgb(113 95 82 / 67%);
+}
+
+.shop-search-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  flex: 0 0 auto;
+}
+
+.shop-search-result-count {
+  padding: 8px 12px;
+
+  border-radius: 999px;
+
+  background:
+    rgb(181 139 84 / 11%);
+
+  color: #73563e;
+
+  font-size: 0.7rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.shop-search-clear {
+  width: 42px;
+  height: 42px;
+
+  display: grid;
+  place-items: center;
+
+  padding: 0;
+
+  border: 0;
+  border-radius: 50%;
+
+  background: #34241c;
+  color: white;
+
+  cursor: pointer;
+
+  transition:
+    background 180ms ease,
+    transform 180ms ease;
+}
+
+.shop-search-clear:hover {
+  background: #5b4232;
+
+  transform: rotate(5deg);
+}
+
+.shop-search-clear svg {
+  width: 17px;
+  height: 17px;
+}
+
+/* Remove the previous underline search styling. */
+
+.shop-catalogue-header
+.shop-search-field {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+/* =========================
+   MINIMAL COLLECTION TITLE
+   ========================= */
+
+.home-collections-title {
+  position: relative;
+
+  width: min(
+    1360px,
+    calc(100% - 40px)
+  );
+
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns:
+    minmax(35px, 1fr)
+    auto
+    minmax(35px, 1fr);
+
+  align-items: center;
+  gap: 24px;
+
+  padding:
+    clamp(72px, 9vw, 112px)
+    0
+    clamp(38px, 5vw, 62px);
+
+  background: transparent;
+}
+
+.home-collections-title::before,
+.home-collections-title::after {
+  content: "";
+
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgb(76 53 39 / 18%)
+    );
+}
+
+.home-collections-title::after {
+  background:
+    linear-gradient(
+      90deg,
+      rgb(76 53 39 / 18%),
+      transparent
+    );
+}
+
+.home-collections-title h2 {
+  margin: 0;
+
+  color: #413027;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size:
+    clamp(
+      1.75rem,
+      3.4vw,
+      3rem
+    );
+
+  font-weight: 400;
+  line-height: 1;
+
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+/* Prevent excessive spacing after the title. */
+
+.home-collections-title
++ .collections-showcase
+.collection-section:first-child {
+  padding-top:
+    clamp(50px, 7vw, 82px);
+}
+
+@media (max-width: 700px) {
+  .header-store-tooltip {
+    display: none;
+  }
+
+  .shop-search-shell {
+    min-height: 62px;
+
+    gap: 10px;
+
+    padding:
+      7px 7px 7px 13px;
+  }
+
+  .shop-search-icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .shop-search-result-count {
+    display: none;
+  }
+
+  .shop-search-clear {
+    width: 38px;
+    height: 38px;
+  }
+
+  .home-collections-title {
+    width:
+      calc(100% - 28px);
+
+    gap: 15px;
+  }
+
+  .home-collections-title h2 {
+    font-size: 1.75rem;
+  }
+}
+/* White over the homepage hero */
+
+.site-header-transparent
+.header-store-link {
+  color: #ffffff;
+}
+
+/* Dark after scrolling */
+
+.royal-luxury-theme.luxury-scrolled
+.site-header-transparent
+.header-store-link {
+  color: #302018;
+}
+
+/* Dark on pages with a light header */
+
+.site-header:not(
+  .site-header-transparent
+)
+.header-store-link {
+  color: #302018;
+}

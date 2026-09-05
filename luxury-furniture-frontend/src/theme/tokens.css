@@ -1,0 +1,164 @@
+/* =========================================================
+   ROYAL HOME DECOR — DESIGN TOKENS
+
+   Palette direction: warm porcelain surfaces, a near-black
+   espresso anchor, antique brass as the primary accent and a
+   deep emerald as the secondary. Higher contrast and cleaner
+   neutrals than the previous cream-on-cream scheme, which read
+   washed out because the page, surfaces and borders all sat
+   within a few percent of each other.
+
+   Variable names are unchanged from the previous theme so the
+   whole stylesheet set picks up the new palette automatically.
+   ========================================================= */
+
+:root {
+  /* ---------- Neutrals: espresso through porcelain ---------- */
+  --ink: #17120F;
+  --espresso: #251D18;
+  --walnut: #574B43;
+  --muted: #7F736A;
+  --muted-soft: #A79B91;
+
+  /* ---------- Primary accent: antique brass ---------- */
+  --gold: #AE7F3D;
+  --gold-deep: #8B6229;
+  --gold-bright: #C9A05A;
+  --champagne: #E8D5AC;
+
+  /* ---------- Secondary accent: deep emerald ---------- */
+  --emerald: #1E4A39;
+  --emerald-soft: #2C6B52;
+  --emerald-wash: #EDF3F0;
+
+  /* ---------- Surfaces ---------- */
+  --ivory: #FAF7F2;
+  --linen: #F2EBE1;
+  --mist: #E6DED2;
+  --sand: #D5C8B8;
+
+  --page: var(--ivory);
+  --surface: #FFFFFF;
+  --surface-glass: rgb(255 255 255 / 86%);
+  --surface-sunk: #F6F1E9;
+  --surface-contrast: var(--ink);
+
+  --line: rgb(37 29 24 / 11%);
+  --line-strong: rgb(37 29 24 / 20%);
+
+  /* ---------- Status ---------- */
+  --success: #1E4A39;
+  --success-bg: #EDF3F0;
+  --warning: #8A5A16;
+  --warning-bg: #FBF2E3;
+  --danger: #98271F;
+  --danger-bg: #FBEEEC;
+  --info-bg: #EEF2F5;
+
+  /* ---------- Sale / discount ---------- */
+  --sale: #9E2B25;
+  --sale-bright: #C0392F;
+  --sale-bg: #FBEDEB;
+
+  /* ---------- Typography ---------- */
+  --font-body:
+    "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+
+  --font-display: Georgia, "Times New Roman", "Playfair Display", serif;
+
+  /* Fluid display sizes: no media queries needed, no layout jank. */
+  --text-hero: clamp(2.75rem, 6.2vw, 5.25rem);
+  --text-display: clamp(2.1rem, 4.4vw, 3.5rem);
+  --text-title: clamp(1.6rem, 2.6vw, 2.25rem);
+  --text-subtitle: clamp(1.15rem, 1.6vw, 1.4rem);
+  --text-body: 1rem;
+  --text-small: 0.875rem;
+  --text-tiny: 0.78rem;
+
+  --tracking-eyebrow: 0.22em;
+  --tracking-wide: 0.08em;
+
+  --leading-tight: 1.06;
+  --leading-snug: 1.28;
+  --leading-body: 1.7;
+
+  /* ---------- Spacing scale ---------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 88px;
+  --space-10: 120px;
+
+  /*
+   * Vertical rhythm for a section. Adjacent sections each applied this
+   * top and bottom, so the visible gap was double this value; the
+   * collapsing rule in base.css now trims that.
+   */
+  --section-y: clamp(40px, 4.6vw, 72px);
+  --gutter: clamp(16px, 3.2vw, 40px);
+  --shell: 1400px;
+  --shell-narrow: 1120px;
+  --shell-text: 720px;
+
+  /* ---------- Radii ---------- */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-xl: 32px;
+  --radius-pill: 999px;
+
+  /* ---------- Elevation ---------- */
+  --shadow-xs: 0 1px 2px rgb(23 18 15 / 5%);
+  --shadow-sm: 0 2px 8px rgb(23 18 15 / 6%), 0 8px 24px rgb(23 18 15 / 5%);
+  --shadow-md: 0 6px 18px rgb(23 18 15 / 8%), 0 18px 44px rgb(23 18 15 / 8%);
+  --shadow-lg: 0 12px 32px rgb(23 18 15 / 10%), 0 32px 80px rgb(23 18 15 / 12%);
+  --shadow-gold: 0 10px 30px rgb(174 127 61 / 28%);
+  --shadow-inset-line: inset 0 0 0 1px rgb(255 255 255 / 55%);
+
+  /* ---------- Motion ---------- */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out: cubic-bezier(0.33, 1, 0.68, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --dur-fast: 150ms;
+  --dur-base: 260ms;
+  --dur-slow: 480ms;
+  --dur-reveal: 700ms;
+
+  /* Marquee speeds, kept here so both rails stay in proportion. */
+  --marquee-duration: 46s;
+
+  /* ---------- Layers ---------- */
+  --z-base: 1;
+  --z-sticky: 40;
+  --z-header: 50;
+  --z-overlay: 80;
+  --z-modal: 90;
+  --z-toast: 100;
+
+  /* ---------- Component metrics ---------- */
+  --header-height: 72px;
+  --announcement-height: 38px;
+  --card-aspect: 4 / 5;
+}
+
+/*
+ * Motion is opt-out at the token level. Every animation in the
+ * storefront reads these variables, so one media query disables
+ * the whole motion system for users who ask for that.
+ */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur-base: 0ms;
+    --dur-slow: 0ms;
+    --dur-reveal: 0ms;
+  }
+}

@@ -1,0 +1,326 @@
+﻿/* =========================================================
+   SPECIAL OFFER SECTION
+
+   Theme presets set three custom properties. Any colour the
+   administrator supplies is applied inline and therefore wins, which is
+   what the "custom" theme relies on.
+   ========================================================= */
+
+.offer-section {
+  /* Defaults, used by the custom theme when no colours are given. */
+  --offer-bg: #241914;
+  --offer-accent: #c9a05a;
+  --offer-text: #fdf9f2;
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-block: clamp(40px, 5vw, 72px);
+  background-color: var(--offer-bg);
+  color: var(--offer-text);
+}
+
+/* Hairline accent rules top and bottom. */
+.offer-section::before,
+.offer-section::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--offer-accent),
+    transparent
+  );
+  opacity: 0.55;
+}
+
+.offer-section::before {
+  top: 0;
+}
+
+.offer-section::after {
+  bottom: 0;
+}
+
+/* ---------- Theme presets ---------- */
+
+.offer-section[data-theme="diwali"] {
+  --offer-bg: #2a1206;
+  --offer-accent: #e8b54d;
+  --offer-text: #fff8ec;
+}
+
+.offer-section[data-theme="holi"] {
+  --offer-bg: #23103a;
+  --offer-accent: #f45d9a;
+  --offer-text: #fdf2ff;
+}
+
+.offer-section[data-theme="christmas"] {
+  --offer-bg: #0e2a1c;
+  --offer-accent: #d8443c;
+  --offer-text: #f4fbf6;
+}
+
+.offer-section[data-theme="new-year"] {
+  --offer-bg: #10141f;
+  --offer-accent: #d9c46a;
+  --offer-text: #f6f7fb;
+}
+
+.offer-section[data-theme="summer"] {
+  --offer-bg: #7a3a12;
+  --offer-accent: #ffcf6b;
+  --offer-text: #fff6e8;
+}
+
+.offer-section[data-theme="monsoon"] {
+  --offer-bg: #10333d;
+  --offer-accent: #6fd3d8;
+  --offer-text: #eefafb;
+}
+
+.offer-section[data-theme="wedding"] {
+  --offer-bg: #3a1220;
+  --offer-accent: #e9a6b8;
+  --offer-text: #fff2f5;
+}
+
+.offer-section[data-theme="clearance"] {
+  --offer-bg: #1d1d20;
+  --offer-accent: #ff8a5c;
+  --offer-text: #f8f8f9;
+}
+
+/* ---------- Background artwork ---------- */
+
+.offer-section-media {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* Kept subdued so product photography stays the focus. */
+  opacity: 0.28;
+}
+
+.offer-section-glow {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(
+      ellipse at 12% 0%,
+      color-mix(in srgb, var(--offer-accent) 26%, transparent),
+      transparent 58%
+    ),
+    radial-gradient(
+      ellipse at 88% 100%,
+      color-mix(in srgb, var(--offer-accent) 16%, transparent),
+      transparent 60%
+    );
+}
+
+/* ---------- Header ---------- */
+
+.offer-section-inner {
+  position: relative;
+}
+
+.offer-section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-5);
+  margin-bottom: clamp(24px, 3vw, 40px);
+}
+
+.offer-section-heading {
+  display: grid;
+  gap: var(--space-3);
+  max-width: 640px;
+}
+
+.offer-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  justify-self: start;
+  padding: 6px 14px;
+  border: 1px solid color-mix(in srgb, var(--offer-accent) 45%, transparent);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--offer-accent) 16%, transparent);
+  color: var(--offer-accent);
+  font-size: var(--text-tiny);
+  font-weight: 700;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+}
+
+.offer-badge-spark {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--offer-accent);
+  animation: offer-spark 2.4s var(--ease-in-out) infinite;
+}
+
+@keyframes offer-spark {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .offer-badge-spark {
+    animation: none;
+  }
+}
+
+.offer-section-title {
+  font-size: var(--text-display);
+  line-height: var(--leading-tight);
+}
+
+.offer-section-subtitle {
+  color: color-mix(in srgb, var(--offer-text) 78%, transparent);
+  font-size: 1.02rem;
+  line-height: var(--leading-body);
+}
+
+.offer-section-headline {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  padding: 10px 20px;
+  border: 1px solid color-mix(in srgb, var(--offer-accent) 40%, transparent);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--offer-accent) 12%, transparent);
+  white-space: nowrap;
+}
+
+.offer-section-headline-value {
+  color: var(--offer-accent);
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.offer-section-headline-label {
+  color: color-mix(in srgb, var(--offer-text) 70%, transparent);
+  font-size: var(--text-tiny);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+/* ---------- Product card ---------- */
+
+.offer-card {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.offer-card-media {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: rgb(255 255 255 / 6%);
+  transition: transform var(--dur-base) var(--ease);
+}
+
+.offer-card-media .smart-image img {
+  transition: transform var(--dur-slow) var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .offer-card:hover .offer-card-media {
+    transform: translateY(-4px);
+  }
+
+  .offer-card:hover .offer-card-media .smart-image img {
+    transform: scale(1.05);
+  }
+}
+
+.offer-card-flag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--offer-accent);
+  color: #1a1208;
+  font-size: var(--text-tiny);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  box-shadow: 0 4px 14px rgb(0 0 0 / 25%);
+}
+
+.offer-card-body {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  min-width: 0;
+}
+
+.offer-card-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.offer-card-title a {
+  color: var(--offer-text);
+  transition: color var(--dur-base) var(--ease);
+}
+
+.offer-card-title a:hover {
+  color: var(--offer-accent);
+}
+
+.offer-card-price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+.offer-card-now {
+  color: var(--offer-text);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.offer-card-was {
+  color: color-mix(in srgb, var(--offer-text) 55%, transparent);
+  font-size: var(--text-small);
+  text-decoration-color: var(--offer-accent);
+}
+
+.offer-card-saving {
+  color: var(--offer-accent);
+  font-size: var(--text-tiny);
+  font-weight: 600;
+}
+
+/* Carousel arrows need inverting on the dark band. */
+.offer-section .carousel-button {
+  border-color: color-mix(in srgb, var(--offer-text) 25%, transparent);
+  background: rgb(255 255 255 / 8%);
+  color: var(--offer-text);
+}
+
+.offer-section .carousel-button:hover:not(:disabled) {
+  border-color: var(--offer-accent);
+  background: var(--offer-accent);
+  color: #1a1208;
+}

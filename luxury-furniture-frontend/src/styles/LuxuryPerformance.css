@@ -1,0 +1,154 @@
+/* =========================================================
+   LUXURY PERFORMANCE OPTIMISATIONS
+
+   Remove this import to undo these changes.
+   ========================================================= */
+
+/*
+ * An absolute texture is cheaper than repainting a fixed
+ * full-screen texture during every scroll frame.
+ */
+body.royal-luxury-theme::before {
+  position: absolute;
+}
+
+/*
+ * Keep the glass appearance while reducing the blur radius.
+ */
+body.royal-luxury-theme .site-header,
+body.royal-luxury-theme .details-content,
+body.royal-luxury-theme .auth-shell,
+body.royal-luxury-theme .favourite-card,
+body.royal-luxury-theme .cart-card,
+body.royal-luxury-theme .address-card,
+body.royal-luxury-theme .order-card,
+.shop-filter-panel,
+.shop-search-shell {
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
+}
+
+/* Reduce the size of expensive blurred decorative glows. */
+
+.about-luxury-glow,
+.shop-hero-glow {
+  filter: blur(58px);
+}
+
+/*
+ * Let the browser avoid painting collection sections
+ * while they are far outside the screen.
+ */
+/*
+ * Always render collection sections.
+ * This prevents blank sections during fast scrolling.
+ */
+.home-page .collection-section {
+  content-visibility: visible;
+  contain: none;
+  contain-intrinsic-size: auto;
+}
+/*
+ * Product cards must never inherit the hidden reveal state.
+ */
+.product-card-shell.luxury-reveal,
+.hover-product-card.luxury-reveal,
+.shop-product-card.luxury-reveal,
+.details-image.luxury-reveal {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+/*
+ * Browser can render these elements on their own composited
+ * layer during movement.
+ */
+.hover-product-card,
+.shop-product-card,
+.about-swap-card {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/*
+ * Avoid animating properties that require layout.
+ */
+.hover-product-image img,
+.shop-product-image img,
+.about-story-card img {
+  will-change: transform;
+}
+
+/*
+ * Only keep will-change on the hero while the pointer can
+ * actually interact with it.
+ */
+@media (hover: hover) and (pointer: fine) {
+  .hero::after {
+    will-change: background;
+  }
+}
+
+/*
+ * Tablets and phones do not need the pointer-following
+ * spotlight or heavy hover effects.
+ */
+@media (hover: none), (pointer: coarse) {
+  body.royal-luxury-theme .hero::after {
+    background:
+      linear-gradient(
+        115deg,
+        rgb(20 12 8 / 82%) 0%,
+        rgb(20 12 8 / 45%) 48%,
+        rgb(20 12 8 / 12%) 100%
+      );
+  }
+
+  .about-luxury-glow,
+  .shop-hero-glow {
+    filter: blur(42px);
+  }
+
+  .hover-product-card:hover,
+  .shop-product-card:hover {
+    transform: none;
+  }
+}
+/*
+ * The card remains visually filled while its image decodes.
+ */
+.hover-product-image:not(
+  .product-image-loaded
+),
+.shop-product-image:not(
+  .product-image-loaded
+) {
+  background:
+    linear-gradient(
+      110deg,
+      #e6dacb 20%,
+      #f8efe3 42%,
+      #e3d5c5 64%
+    );
+
+  background-size: 220% 100%;
+
+  animation:
+    luxury-image-placeholder
+    1.25s ease-in-out infinite;
+}
+
+.hover-product-image.product-image-loaded,
+.shop-product-image.product-image-loaded {
+  animation: none;
+}
+
+@keyframes luxury-image-placeholder {
+  from {
+    background-position: 180% 0;
+  }
+
+  to {
+    background-position: -40% 0;
+  }
+}

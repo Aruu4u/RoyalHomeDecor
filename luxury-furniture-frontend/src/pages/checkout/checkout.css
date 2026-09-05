@@ -1,0 +1,131 @@
+/* =========================================================
+   CHECKOUT
+   ========================================================= */
+
+.checkout-page {
+  padding-block: clamp(34px, 4.5vw, 64px) var(--section-y);
+}
+
+.checkout-header {
+  margin-bottom: var(--space-6);
+}
+
+.checkout-title {
+  margin-top: var(--space-2);
+  font-size: var(--text-display);
+  line-height: var(--leading-tight);
+}
+
+.checkout-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 360px);
+  gap: clamp(24px, 3.4vw, 48px);
+  align-items: start;
+}
+
+@media (max-width: 940px) {
+  .checkout-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.checkout-main {
+  display: grid;
+  gap: var(--space-5);
+  min-width: 0;
+}
+
+.checkout-section {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.checkout-section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.checkout-section-title {
+  font-size: 1.3rem;
+}
+
+.checkout-empty-addresses {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.checkout-note {
+  min-height: 104px;
+}
+
+/* ---------- Items ---------- */
+
+.checkout-items {
+  display: grid;
+  border-top: 1px solid var(--line);
+}
+
+.checkout-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-block: var(--space-3);
+  border-bottom: 1px solid var(--line);
+}
+
+.checkout-item-info {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.checkout-item-name {
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+}
+
+.checkout-item-meta {
+  color: var(--muted);
+  font-size: var(--text-tiny);
+}
+
+.checkout-item-price {
+  color: var(--espresso);
+  font-size: var(--text-small);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ---------- Summary ---------- */
+
+.checkout-summary {
+  position: sticky;
+  top: calc(var(--header-height) + 20px);
+  display: grid;
+  gap: var(--space-3);
+  padding: clamp(22px, 2.6vw, 30px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+@media (max-width: 940px) {
+  .checkout-summary {
+    position: static;
+  }
+}
+
+.checkout-shipping-to {
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-sunk);
+  color: var(--walnut);
+  font-size: var(--text-tiny);
+  line-height: 1.55;
+}

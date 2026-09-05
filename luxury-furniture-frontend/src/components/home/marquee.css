@@ -1,0 +1,177 @@
+/* =========================================================
+   COLLECTION MARQUEE
+   ========================================================= */
+
+.marquee {
+  position: relative;
+  /*
+   * The section already spans the full width, so 100% is edge to edge.
+   * Using 100vw with a centring offset overshoots by the scrollbar
+   * width, which pulled the rail a few pixels off-centre and made the
+   * two mask fades uneven.
+   */
+  width: 100%;
+  overflow: hidden;
+  /* Fade the two ends so cards enter and leave instead of popping. */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 8%,
+    #000 92%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 8%,
+    #000 92%,
+    transparent 100%
+  );
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll var(--marquee-duration) linear infinite;
+  will-change: transform;
+}
+
+.marquee-half {
+  display: flex;
+  gap: var(--space-5);
+  padding-right: var(--space-5);
+}
+
+/* Translating by half the track width loops seamlessly. */
+@keyframes marquee-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* Let shoppers stop the rail to read or click a card. */
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
+.marquee-track.is-static {
+  animation: none;
+  gap: var(--space-5);
+  padding-inline: var(--gutter);
+}
+
+/*
+ * With reduced motion the rail becomes an ordinary horizontal
+ * scroller rather than disappearing.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    overflow-x: auto;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .marquee-track {
+    animation: none;
+  }
+
+  .marquee-half:last-child {
+    display: none;
+  }
+}
+
+/* ---------- Card ---------- */
+
+.collection-card {
+  position: relative;
+  flex: 0 0 auto;
+  width: 290px;
+  overflow: hidden;
+  /* Generously rounded so the rail reads as a row of soft tiles. */
+  border-radius: 28px;
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  transition:
+    box-shadow var(--dur-base) var(--ease),
+    transform var(--dur-base) var(--ease);
+}
+
+.collection-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-6px);
+}
+
+.collection-card-media {
+  display: block;
+  overflow: hidden;
+}
+
+.collection-card-media .smart-image img {
+  transition: transform var(--dur-slow) var(--ease);
+}
+
+.collection-card:hover .collection-card-media .smart-image img {
+  transform: scale(1.07);
+}
+
+/* Caption sits over the foot of the image on a dark scrim. */
+.collection-card-body {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  display: grid;
+  gap: 6px;
+  padding: var(--space-5) var(--space-4) var(--space-4);
+  background: linear-gradient(
+    to top,
+    rgb(18 13 10 / 92%) 0%,
+    rgb(18 13 10 / 55%) 55%,
+    transparent 100%
+  );
+  color: #fff;
+}
+
+.collection-card-name {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  line-height: 1.25;
+}
+
+.collection-card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--champagne);
+  font-size: var(--text-tiny);
+  font-weight: 700;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+}
+
+.collection-card-cta svg {
+  transition: transform var(--dur-base) var(--ease);
+}
+
+.collection-card:hover .collection-card-cta svg {
+  transform: translateX(4px);
+}
+
+.collection-card-skeleton {
+  flex: 0 0 auto;
+  width: 290px;
+  aspect-ratio: 3 / 4;
+  border-radius: 28px;
+}
+
+@media (max-width: 560px) {
+  .collection-card,
+  .collection-card-skeleton {
+    width: 224px;
+    border-radius: 22px;
+  }
+}

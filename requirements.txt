@@ -1,0 +1,96 @@
+# =========================================================
+#  Royal Home Decor - Python dependencies
+# =========================================================
+#
+#  Everything the backend API needs, for the whole project in
+#  one file.
+#
+#      python -m venv venv
+#      venv\Scripts\activate          (Windows)
+#      source venv/bin/activate       (macOS / Linux)
+#      pip install -r requirements.txt
+#
+#  Requires Python 3.11 or newer. Developed and tested on
+#  3.11.9.
+#
+#  The frontend is a separate Node project and is not covered
+#  here. Install it with `npm install` inside
+#  luxury-furniture-frontend (Node 20+; built on Node 24.11.1).
+#
+#  ---------------------------------------------------------
+#  Why the versions are pinned
+#  ---------------------------------------------------------
+#
+#  These are the exact versions the test suite passes against.
+#  An unpinned list installs whatever is newest on the day, so
+#  a fresh clone can break through no change of your own, and
+#  a bug that only appears on the server becomes very hard to
+#  reproduce. Pinning also removes the window where a
+#  compromised release of a dependency would be picked up
+#  automatically.
+#
+#  To move up a version deliberately, change it here and run
+#  the test suite.
+
+
+# ---------------------------------------------------------
+#  Web framework and server
+# ---------------------------------------------------------
+
+fastapi==0.139.2
+uvicorn[standard]==0.51.0
+
+# Pulled in by FastAPI. Pinned so the whole request path is
+# reproducible, not just the top-level package.
+starlette==1.3.1
+anyio==4.14.2
+
+
+# ---------------------------------------------------------
+#  Database
+# ---------------------------------------------------------
+
+sqlalchemy[asyncio]==2.0.51
+
+# Async PostgreSQL driver, used against Supabase Postgres.
+asyncpg==0.31.0
+
+# Required by SQLAlchemy's async support. Listed explicitly
+# because a missing greenlet produces a confusing
+# "MissingGreenlet" error rather than an import failure.
+greenlet==3.5.3
+
+# Schema migrations.
+alembic==1.18.5
+
+
+# ---------------------------------------------------------
+#  Configuration and validation
+# ---------------------------------------------------------
+
+pydantic==2.13.4
+pydantic-settings==2.14.2
+python-dotenv==1.2.2
+
+# Validates the email address on the product review form.
+email-validator==2.3.0
+
+
+# ---------------------------------------------------------
+#  HTTP client
+# ---------------------------------------------------------
+
+# Used by the Razorpay integration and by the test client.
+httpx==0.28.1
+
+
+# ---------------------------------------------------------
+#  Development and testing
+# ---------------------------------------------------------
+#
+#  Kept in the main file rather than split out: this is a
+#  single-developer project, and a test suite you have to
+#  remember to install separately is one you stop running.
+
+pytest==8.4.2
+ruff==0.15.22

@@ -1,0 +1,402 @@
+/* =========================================================
+   PRODUCT CARD
+   ========================================================= */
+
+.product-card {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.product-card-media {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: var(--mist);
+  box-shadow: var(--shadow-xs);
+  /* Promotes the card to its own layer only while it is being hovered. */
+  isolation: isolate;
+  transition:
+    box-shadow var(--dur-base) var(--ease),
+    transform var(--dur-base) var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .product-card:hover .product-card-media {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-4px);
+  }
+}
+
+.product-card-media-link {
+  display: block;
+}
+
+.product-card-media .smart-image img {
+  transition:
+    transform var(--dur-slow) var(--ease),
+    opacity var(--dur-slow) var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .product-card:hover .product-card-media .smart-image img {
+    transform: scale(1.045);
+  }
+}
+
+/* ---------- Labels ---------- */
+
+.product-card-labels {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 2;
+  display: grid;
+  gap: 6px;
+  justify-items: start;
+  pointer-events: none;
+}
+
+/* ---------- Tools (favourite) ---------- */
+
+.product-card-tools {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+}
+
+.favourite-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: rgb(255 252 247 / 88%);
+  backdrop-filter: blur(6px);
+  color: var(--walnut);
+  cursor: pointer;
+  transition:
+    background-color var(--dur-base) var(--ease),
+    color var(--dur-base) var(--ease),
+    border-color var(--dur-base) var(--ease),
+    transform var(--dur-base) var(--ease);
+}
+
+.favourite-button:hover:not(:disabled) {
+  border-color: var(--gold);
+  color: var(--gold-deep);
+  transform: scale(1.06);
+}
+
+.favourite-button.is-saved {
+  border-color: var(--gold);
+  color: var(--gold-deep);
+}
+
+.favourite-button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.favourite-button.has-label {
+  width: auto;
+  height: auto;
+  padding: 12px 20px;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-small);
+  font-weight: 700;
+}
+
+/* ---------- Quick add ---------- */
+
+.product-card-quick {
+  position: absolute;
+  inset-inline: 10px;
+  bottom: 10px;
+  z-index: 2;
+  opacity: 0;
+  transform: translate3d(0, 12px, 0);
+  transition:
+    opacity var(--dur-base) var(--ease),
+    transform var(--dur-base) var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .product-card:hover .product-card-quick,
+  .product-card:focus-within .product-card-quick {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Touch devices get no hover, so the button is always visible. */
+@media (hover: none), (pointer: coarse) {
+  .product-card-quick {
+    position: static;
+    inset: auto;
+    margin-top: var(--space-3);
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.product-card-add {
+  width: 100%;
+  padding: 13px 18px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--ink);
+  color: var(--ivory);
+  font-size: var(--text-tiny);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color var(--dur-base) var(--ease);
+}
+
+.product-card-add:hover:not(:disabled) {
+  background: var(--gold-deep);
+}
+
+.product-card-add:disabled {
+  background: var(--walnut);
+  cursor: wait;
+}
+
+/*
+  Sold out is a different kind of disabled from "busy adding", so it gets
+  its own cursor and colour. `not-allowed` tells a mouse user the control
+  will not respond; `wait` above would suggest it is about to.
+*/
+.product-card.is-sold-out .product-card-add:disabled {
+  background: var(--mist);
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+/* ---------- Out of stock ---------- */
+
+/*
+  Sits over the photograph but under the labels and the favourite button,
+  so a sold-out piece can still be saved for later.
+*/
+.product-card-soldout {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  background: rgb(28 22 18 / 34%);
+  backdrop-filter: saturate(45%);
+  pointer-events: none;
+}
+
+.product-card-soldout-label {
+  padding: 9px 20px;
+  border: 1px solid rgb(255 255 255 / 55%);
+  border-radius: var(--radius-pill);
+  background: rgb(28 22 18 / 72%);
+  color: var(--ivory);
+  font-size: var(--text-tiny);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+/* The image itself is drained of colour to reinforce the state. */
+.product-card.is-sold-out .product-card-media .smart-image img {
+  filter: grayscale(72%);
+}
+
+/* No lift on hover: nothing here invites interaction. */
+@media (hover: hover) and (pointer: fine) {
+  .product-card.is-sold-out:hover .product-card-media {
+    transform: none;
+  }
+
+  .product-card.is-sold-out:hover .product-card-media .smart-image img {
+    transform: none;
+  }
+}
+
+.product-card.is-sold-out .product-card-title a,
+.product-card.is-sold-out .price-now {
+  color: var(--muted);
+}
+
+/* ---------- Rating ---------- */
+
+.product-card-rating {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 2px;
+}
+
+/*
+  Two stacked copies of the same five glyphs, the filled one clipped to
+  the score. That shows a 4.3 as four and a bit stars rather than rounding
+  it to a whole number and overstating or understating the rating.
+*/
+.product-card-rating-stars {
+  position: relative;
+  display: inline-block;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  line-height: 1;
+}
+
+.product-card-rating-empty {
+  color: var(--line-strong, #ddd3c6);
+}
+
+.product-card-rating-filled {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  width: var(--rating-fill, 0%);
+  color: var(--gold);
+  white-space: nowrap;
+}
+
+.product-card-rating-text {
+  color: var(--muted);
+  font-size: var(--text-tiny);
+  font-weight: 600;
+}
+
+.product-card-rating-count {
+  margin-left: 3px;
+  font-weight: 500;
+}
+
+/* ---------- Body ---------- */
+
+.product-card-body {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  min-width: 0;
+}
+
+.product-card-meta {
+  color: var(--muted);
+  font-size: var(--text-tiny);
+  font-weight: 600;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.product-card-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.product-card-title a {
+  transition: color var(--dur-base) var(--ease);
+}
+
+.product-card-title a:hover {
+  color: var(--gold-deep);
+}
+
+/* =========================================================
+   PRICE TAG
+   ========================================================= */
+
+.price-tag {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+.price-now {
+  color: var(--espresso);
+  font-weight: 700;
+}
+
+.price-tag-card .price-now {
+  font-size: 1.05rem;
+}
+
+.price-tag-detail {
+  gap: var(--space-3);
+}
+
+.price-tag-detail .price-now {
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  font-weight: 500;
+}
+
+.price-was {
+  color: var(--muted);
+  font-size: var(--text-small);
+  text-decoration-color: var(--sale);
+  text-decoration-thickness: 1.5px;
+}
+
+.price-tag-detail .price-was {
+  font-size: 1.1rem;
+}
+
+/* The saving percentage, kept tight against the struck price. */
+.price-off {
+  color: var(--sale);
+  font-size: var(--text-tiny);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.price-tag-detail .price-off {
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--sale-bg);
+  font-size: var(--text-small);
+}
+
+.price-saving {
+  flex-basis: 100%;
+  color: var(--emerald);
+  font-size: var(--text-tiny);
+  font-weight: 600;
+}
+
+/* =========================================================
+   DISCOUNT FLAG
+   ========================================================= */
+
+.discount-flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 11px;
+  border-radius: var(--radius-pill);
+  background-image: linear-gradient(135deg, var(--sale-bright), var(--sale));
+  color: #fff;
+  font-size: var(--text-tiny);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgb(158 43 37 / 32%);
+}
+
+.discount-flag-label {
+  padding-left: 6px;
+  border-left: 1px solid rgb(255 255 255 / 45%);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
