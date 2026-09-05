@@ -83,13 +83,20 @@ def create_application() -> FastAPI:
         openapi_url="/openapi.json" if docs_enabled else None,
     )
 
+    # Driven by CORS_ORIGINS so each environment sets its own allowlist.
+    #
+    # This was previously hardcoded to localhost:4173, which works in
+    # development and silently blocks every request from a deployed
+    # frontend. Reading the setting means a new domain is a config change
+    # rather than a code change and a redeploy.
+    #
+    # Note that when the API and the storefront are served from the same
+    # origin, as they are on a single Vercel project, the browser sends no
+    # preflight and CORS never comes into play. The allowlist still matters
+    # for local development and for any other client.
     application.add_middleware(
         CORSMiddleware,
-       allow_origins=[
-        "http://localhost:4173",
-        "http://127.0.0.1:4173",
-    ],
-        # allow_origins=settings.cors_origin_list,
+        allow_origins=settings.cors_origin_list,
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],

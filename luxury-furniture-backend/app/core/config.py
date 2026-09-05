@@ -1,3 +1,4 @@
+import os
 from functools import lru_cache
 from typing import Literal
 from pydantic import Field
@@ -21,6 +22,24 @@ class Settings(BaseSettings):
     supabase_anon_key: str
     supabase_url: str
     database_echo: bool = False
+
+    # Switches the engine between a pooled connection (one long-lived
+    # server) and no client-side pooling (serverless, where every instance
+    # is its own process and a pool per instance exhausts the database's
+    # connection limit).
+    #
+    # Defaults from Vercel's own VERCEL environment variable rather than
+    # needing to be remembered, because forgetting it produces an
+    # intermittent failure under load rather than an obvious one at boot.
+    # Setting DB_SERVERLESS explicitly always wins.
+    db_serverless: bool = Field(
+        default_factory=lambda: os.getenv("VERCEL") == "1",
+        description=(
+            "Disable client-side connection pooling. Required on "
+            "serverless platforms, and must be paired with a "
+            "transaction-mode connection pooler."
+        ),
+    )
 
     razorpay_key_id: str
     razorpay_key_secret: str

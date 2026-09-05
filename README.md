@@ -396,6 +396,33 @@ shopper cannot act on a 500, and showing them one only erodes trust in the shop.
 
 ---
 
+## Deployment
+
+Both halves run as **one Vercel project with two independently built services**, sharing
+a single domain but never a build:
+
+```
+royalhomedecor.vercel.app
+│
+├── /api/*   ──►  FastAPI      (Python runtime)
+└── /*       ──►  Vite SPA     (static)
+```
+
+Because they share an origin, the browser talks to the API same-origin — no CORS
+preflight, and no second domain to manage.
+
+**→ [Full deployment guide](DEPLOYMENT.md)**
+
+The one thing worth knowing up front: serverless needs Supabase's **transaction pooler**
+on port 6543 and client-side pooling switched off, otherwise concurrent instances
+exhaust the database connection limit. The app detects Vercel and reconfigures the
+engine itself; local development keeps its normal pool.
+
+`render.yaml` and `Procfile` are still there, so a persistent-server deploy remains an
+option.
+
+---
+
 ## Roadmap
 
 - [ ] Admin UI for review moderation (the API endpoints already exist)
