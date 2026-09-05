@@ -1,10 +1,5 @@
+import { apiBaseUrl } from "../lib/env";
 import { supabase } from "../lib/supabase";
-
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
-
-if (!apiBaseUrl) {
-  throw new Error("VITE_API_BASE_URL is not configured.");
-}
 
 export interface ValidationIssue {
   loc?: Array<string | number>;

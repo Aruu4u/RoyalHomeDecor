@@ -168,6 +168,39 @@ In a browser, check all four:
 ## Troubleshooting
 
 <details>
+<summary><b>Blank page — background colour shows but nothing renders</b></summary>
+
+The `VITE_*` variables were not set when Vercel built, so the bundle
+contains a hardcoded crash.
+
+`VITE_*` values are substituted into the JavaScript at **build** time.
+When one was missing, the minifier could prove the guard always ran and
+the shipped chunk began:
+
+```js
+import "./vendor-supabase.js";
+throw Error("VITE_SUPABASE_URL is not configured.");
+```
+
+That throw fires while modules are still importing, before React mounts,
+so the error boundary never gets a chance and the page stays blank. The
+CSS still loads, which is why the theme background appears and nothing
+else does.
+
+**Fix:** add the three `VITE_` variables from step 3, then redeploy with
+the build cache disabled. Adding them alone changes nothing — the bundle
+is only rebuilt on a new deploy.
+
+The app no longer fails this way. Configuration is collected in
+`src/lib/env.ts` without throwing, `main.tsx` checks it before mounting,
+and a missing value now shows the ordinary service notice with the
+specific keys logged to the console. `VITE_API_BASE_URL` also defaults to
+`/api/v1`, which is correct for a same-origin deployment, so it is one
+fewer variable to forget.
+
+</details>
+
+<details>
 <summary><b>Deep links 404 — <code>/shop</code> works from the home page but not on refresh</b></summary>
 
 React Router handles routes in the browser, so a direct request for `/shop` asks Vercel
