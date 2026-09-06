@@ -6,7 +6,7 @@
       "buildCommand": "npm run build",
       "outputDirectory": "dist",
       "rewrites": [
-        { "source": "/(.*)", "destination": "/index.html" }
+        { "source": "/((?!_vercel/).*)", "destination": "/index.html" }
       ]
     },
     "api": {

@@ -2,6 +2,16 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 
+/*
+ * The React entry point, not the Next.js one.
+ *
+ * Vercel's setup screen shows `@vercel/analytics/next`, which only works
+ * in a Next.js app. This project is Vite plus React Router, so importing
+ * that path fails to resolve. The package ships a separate entry for each
+ * framework; `/react` is ours.
+ */
+import { Analytics } from "@vercel/analytics/react";
+
 import App from "./App";
 import ErrorBoundary from "./components/error/ErrorBoundary";
 import ServiceNotice from "./components/error/ServiceNotice";
@@ -80,6 +90,22 @@ if (!isConfigured) {
         whole page down to a blank screen.
       */}
       <ErrorBoundary>
+        {/*
+          Renders nothing: it injects Vercel's analytics script, which then
+          follows history changes on its own, so client-side navigation is
+          counted without any router wiring.
+
+          Placed inside the boundary but outside the router. Inside the
+          boundary, because a fault in a page-view counter should show the
+          notice rather than blank the storefront. Outside the router,
+          because it needs no routing context, and nesting it there would
+          imply a dependency it does not have.
+
+          It is inert during local development, reporting to the console
+          instead of sending anything.
+        */}
+        <Analytics />
+
         <BrowserRouter>
           <AuthProvider>
             <FavouriteProvider>
