@@ -126,6 +126,19 @@
   line-height: 1;
 }
 
+/*
+ * Baseline alignment plus `line-height: 1` left the header logo only 19px
+ * tall, so the most-tapped link on the site had one of the smallest hit
+ * areas. Padding raises it past the 24px minimum without moving anything,
+ * since the header centres its row anyway.
+ *
+ * Scoped to the header: the footer uses .brand on a <p>, which is not a
+ * target at all.
+ */
+.site-header .brand {
+  padding-block: 8px;
+}
+
 .brand-mark {
   color: var(--ink);
   font-size: 1.45rem;
@@ -286,6 +299,64 @@
   .brand {
     justify-self: start;
   }
+}
+
+/* ---------- Header on phones ---------- */
+
+/*
+ * The header was overflowing on a phone: burger, wordmark and four 40px
+ * icons need about 415px, while a 390px screen leaves 358px inside the
+ * gutters. The cart icon was cut in half at the right edge.
+ *
+ * Rather than shrink the tap targets, which are already at the sensible
+ * minimum, the icons that duplicate a drawer entry are dropped. Search and
+ * Cart stay because neither appears in the drawer; Account and Favourites
+ * both do.
+ */
+@media (max-width: 600px) {
+  .site-header-inner {
+    gap: var(--space-3);
+  }
+
+  .brand-mark {
+    font-size: 1.2rem;
+  }
+
+  .brand {
+    gap: 5px;
+  }
+
+  .header-account {
+    display: none;
+  }
+}
+
+@media (max-width: 400px) {
+  .site-header-inner {
+    gap: 8px;
+  }
+
+  /* The drawer's Favourites link carries the count on these widths. */
+  .header-fav {
+    display: none;
+  }
+}
+
+/* Count beside a drawer link, replacing the hidden header badge. */
+.mobile-menu-count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  margin-left: var(--space-2);
+  padding-inline: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--gold);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1;
+  vertical-align: middle;
 }
 
 /* ---------- Mobile drawer ---------- */
@@ -597,6 +668,19 @@
 }
 
 .footer-column a {
+  /*
+   * `inline-block` plus vertical padding so the tap area is at least the
+   * 24px WCAG 2.2 asks for. As plain inline text these links were 17px
+   * tall, which is an awkward target for a thumb, and they sit in a
+   * stacked list rather than inside a sentence so the inline exception
+   * does not apply.
+   *
+   * The negative margin cancels the added padding, leaving the visual
+   * spacing of the list exactly as it was.
+   */
+  display: inline-block;
+  padding-block: 4px;
+  margin-block: -4px;
   color: var(--walnut);
   font-size: var(--text-small);
   transition: color var(--dur-base) var(--ease);

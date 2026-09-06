@@ -137,6 +137,21 @@
 
 .carousel {
   position: relative;
+
+  /*
+   * Contains the rail.
+   *
+   * The track already scrolls its own overflow, but on a long rail Chrome
+   * still let the excess reach the document: measured at phone width, a
+   * nine-card rail gave the page a scrollWidth of 2442px against a 390px
+   * screen, which pushed the whole layout into a narrow column. Rails
+   * with fewer cards behaved correctly, so the leak only appears once the
+   * content is long enough to matter.
+   *
+   * `clip` rather than `hidden`, so this does not become a second scroll
+   * container competing with the track inside it.
+   */
+  overflow-x: clip;
 }
 
 .carousel-track {
@@ -521,6 +536,14 @@
 }
 
 .breadcrumb a {
+  /*
+   * Padded to clear the 24px minimum tap size; at the tiny breadcrumb
+   * font these links were 21px tall. The negative margin keeps the row's
+   * height unchanged.
+   */
+  display: inline-block;
+  padding-block: 3px;
+  margin-block: -3px;
   transition: color var(--dur-base) var(--ease);
 }
 

@@ -145,7 +145,7 @@ function SiteHeader() {
 
             <Link
               aria-label={`Favourites, ${favouriteCount} saved`}
-              className="header-icon"
+              className="header-icon header-fav"
               to="/favourites"
             >
               <svg
@@ -167,9 +167,14 @@ function SiteHeader() {
               )}
             </Link>
 
+            {/*
+              Hidden on small screens by CSS, because the drawer already
+              links to Account. Search and Cart stay, as neither is in the
+              drawer.
+            */}
             <Link
               aria-label={session ? "Your account" : "Sign in"}
-              className="header-icon"
+              className="header-icon header-account"
               to={session ? "/account" : "/login"}
             >
               <svg
@@ -263,8 +268,16 @@ function SiteHeader() {
                 Orders
               </NavLink>
 
+              {/*
+                Carries the count, because the header's favourites icon and
+                its badge are hidden on the narrowest screens to make the
+                header fit. Without this the number would be lost there.
+              */}
               <NavLink className="mobile-menu-link" to="/favourites">
                 Favourites
+                {favouriteCount > 0 && (
+                  <span className="mobile-menu-count">{favouriteCount}</span>
+                )}
               </NavLink>
 
               {isAdmin && (

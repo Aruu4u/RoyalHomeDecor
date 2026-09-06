@@ -190,8 +190,18 @@
 
 .slow-banner-close {
   flex-shrink: 0;
-  padding: 0 4px;
+  /*
+   * Sized to the 24px minimum rather than left to the glyph, which gave a
+   * 22x21 target. A dismiss control that is hard to hit is doubly
+   * annoying, because the banner it dismisses is already in the way.
+   */
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
   border: 0;
+  border-radius: 50%;
   background: transparent;
   color: rgb(250 247 242 / 70%);
   font-size: 1.3rem;

@@ -17,6 +17,32 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+/*
+ * Safety net against sideways overflow.
+ *
+ * On a phone, one element wider than the screen does not just clip: the
+ * document itself grows, so the whole layout ends up in a narrow column
+ * with dead space beside it, and pinch-zooming reveals the emptiness.
+ * It is a disproportionate failure for a small mistake, and it is easy to
+ * introduce without noticing on a desktop screen.
+ *
+ * `clip` rather than `hidden`, deliberately. `overflow: hidden` makes the
+ * element a scroll container, which breaks `position: sticky` on
+ * descendants: the site header would stop sticking. `clip` crops without
+ * creating a scroll container, so sticky keeps working.
+ *
+ * Only the horizontal axis is touched, so vertical page scrolling is
+ * untouched.
+ *
+ * This is a net, not a fix. Real overflow should still be found and
+ * corrected at source, because clipping hides content rather than fitting
+ * it. `scripts/find-overflow.mjs` reports anything that overflows.
+ */
+html,
+body {
+  overflow-x: clip;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;

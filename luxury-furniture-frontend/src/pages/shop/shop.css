@@ -87,6 +87,17 @@
   font-size: var(--text-tiny);
 }
 
+/*
+ * Padded to clear the 24px minimum tap size. This page has its own
+ * breadcrumb class rather than the shared `.breadcrumb`, so it needs the
+ * rule repeated here.
+ */
+.shop-breadcrumb a {
+  display: inline-block;
+  padding-block: 3px;
+  margin-block: -3px;
+}
+
 .shop-breadcrumb a:hover {
   color: var(--champagne);
 }
