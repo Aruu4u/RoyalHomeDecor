@@ -19,6 +19,15 @@
 # The example files are safe: placeholders only, no real values.
 !.env.example
 
+# The storefront's production build values. Committed deliberately: every
+# VITE_ value is substituted into JavaScript that visitors download, so
+# these are public whether or not they are in the repository. See the
+# header of that file for what must never be added to it.
+#
+# Named explicitly rather than as a pattern, so a stray .env.production
+# anywhere else - the backend especially - stays ignored.
+!luxury-furniture-frontend/.env.production
+
 # Saved sign-in payload used for manual API testing. Contains a
 # real email and password.
 login.json

@@ -3,6 +3,9 @@
 .env.*
 !.env.example
 
+# Public build values only. See the file's own header for the rules.
+!.env.production
+
 # Logs
 logs
 *.log
