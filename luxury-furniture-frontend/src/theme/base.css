@@ -37,6 +37,13 @@ html {
  * This is a net, not a fix. Real overflow should still be found and
  * corrected at source, because clipping hides content rather than fitting
  * it. `scripts/find-overflow.mjs` reports anything that overflows.
+ *
+ * Deliberately no `overflow-x: hidden` fallback here, unlike on
+ * `.carousel`. On a browser too old for `clip` this rule simply does
+ * nothing, which is the right trade: `hidden` on the root would stop the
+ * header sticking on every browser, to guard against overflow that has
+ * already been fixed at source and verified absent with this rule
+ * switched off.
  */
 html,
 body {

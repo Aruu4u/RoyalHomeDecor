@@ -141,17 +141,43 @@
   /*
    * Contains the rail.
    *
-   * The track already scrolls its own overflow, but on a long rail Chrome
-   * still let the excess reach the document: measured at phone width, a
+   * The track already scrolls its own overflow, but on a long rail the
+   * excess still reached the document: measured at phone width, a
    * nine-card rail gave the page a scrollWidth of 2442px against a 390px
    * screen, which pushed the whole layout into a narrow column. Rails
    * with fewer cards behaved correctly, so the leak only appears once the
    * content is long enough to matter.
    *
-   * `clip` rather than `hidden`, so this does not become a second scroll
-   * container competing with the track inside it.
+   * `hidden` is the base because it is understood everywhere.
+   * `overflow: clip` needs Safari 16, released September 2022, and on an
+   * older iPhone an unsupported value is dropped, which would leave this
+   * element with no containment at all and the layout broken on exactly
+   * the devices the fix was written for.
+   *
+   * The upgrade to `clip` lives in an @supports block below rather than
+   * as a second declaration here. Writing both on one rule looks
+   * equivalent but is not: the CSS minifier treats the repeated property
+   * as redundant and deletes the fallback, which was verified against the
+   * built stylesheet. A feature query cannot be merged away.
+   *
+   * Room is left above and below for the cards' hover lift, cancelled by
+   * an equal negative margin so surrounding spacing is unchanged.
+   * Without it, clipping would shave the top off a lifted card.
    */
-  overflow-x: clip;
+  padding-block: 8px;
+  margin-block: -8px;
+  overflow-x: hidden;
+}
+
+/*
+ * Preferred over `hidden` where available, because `clip` crops without
+ * making the element a scroll container, so it cannot compete with the
+ * track scrolling inside it.
+ */
+@supports (overflow: clip) {
+  .carousel {
+    overflow-x: clip;
+  }
 }
 
 .carousel-track {

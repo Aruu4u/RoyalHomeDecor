@@ -54,7 +54,7 @@ try {
     width,
     height,
     deviceScaleFactor: 2,
-    isMobile: false,
+    isMobile: process.argv.includes("--mobile"),
     hasTouch: true,
   });
 
